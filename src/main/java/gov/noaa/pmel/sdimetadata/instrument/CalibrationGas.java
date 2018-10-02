@@ -10,7 +10,7 @@ import java.util.HashSet;
  */
 public class CalibrationGas implements Cloneable {
 
-    public static final String GAS_CONCENTRATION_UNIT = "umol/mol";
+    public static final String GAS_CONCENTRATION_UNIT = "ppm";
 
     protected String id;
     protected String type;
@@ -40,8 +40,8 @@ public class CalibrationGas implements Cloneable {
      *         assign as the concentration, in umol/mol, of the gas being calibrated;
      *         if null or blank, an empty string is assigned
      * @param accStr
-     *         assign as the accuracy, in umol/mol, of the concentration of the gas being calibrated;
-     *         if null or blank, an empty string is assigned
+     *         assign as the accuracy, in {@link #GAS_CONCENTRATION_UNIT}, of the concentration of the gas
+     *         being calibrated;  if null or blank, an empty string is assigned
      *
      * @throws IllegalArgumentException
      *         if the concentration given, if not null and not blank, does not represent a non-negative finite number,
@@ -137,16 +137,12 @@ public class CalibrationGas implements Cloneable {
      *         assign as the concentration of the gas being calibrated; if null, an empty string is assigned
      *
      * @throws IllegalArgumentException
-     *         if the concentration given, if not null, does not represent a non-negative finite number, or
-     *         if the unit of the concentration given is not {@link #GAS_CONCENTRATION_UNIT}
+     *         if the concentration given, if not null, does not represent a non-negative finite number
      */
     public void setConcentration(NumericString concentration) throws IllegalArgumentException {
         if ( concentration != null ) {
             if ( !concentration.isNonNegative() )
                 throw new IllegalArgumentException("concentration specified is not a finite non-negative number");
-            if ( !GAS_CONCENTRATION_UNIT.equals(concentration.getUnitString()) )
-                throw new IllegalArgumentException(
-                        "concentration specified is not in units of " + GAS_CONCENTRATION_UNIT);
             this.concentration = concentration.clone();
         }
         else

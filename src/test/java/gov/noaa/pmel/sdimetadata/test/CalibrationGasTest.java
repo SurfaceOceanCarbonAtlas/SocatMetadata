@@ -85,12 +85,6 @@ public class CalibrationGasTest {
         } catch ( IllegalArgumentException ex ) {
             // Expected result
         }
-        try {
-            gas.setConcentration(new NumericString("234.52", "mmol/mol"));
-            fail("calling setConcentration with a unit of mmol/mol succeeded");
-        } catch ( IllegalArgumentException ex ) {
-            // Expected result
-        }
     }
 
     @Test
@@ -114,12 +108,6 @@ public class CalibrationGasTest {
         try {
             gas.setAccuracy(new NumericString("-1.0", CalibrationGas.GAS_CONCENTRATION_UNIT));
             fail("calling setAccuracy with a negative value succeeded");
-        } catch ( IllegalArgumentException ex ) {
-            // Expected result
-        }
-        try {
-            gas.setAccuracy(new NumericString("234.64", " mmol/mol"));
-            fail("calling setAccuracy with a unit of mmol/mol succeeded");
         } catch ( IllegalArgumentException ex ) {
             // Expected result
         }

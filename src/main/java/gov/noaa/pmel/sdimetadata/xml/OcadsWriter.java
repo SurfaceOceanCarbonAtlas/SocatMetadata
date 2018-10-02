@@ -4,7 +4,9 @@ import gov.noaa.pmel.sdimetadata.Coverage;
 import gov.noaa.pmel.sdimetadata.MiscInfo;
 import gov.noaa.pmel.sdimetadata.SDIMetadata;
 import gov.noaa.pmel.sdimetadata.instrument.Analyzer;
+import gov.noaa.pmel.sdimetadata.instrument.CalibrationGas;
 import gov.noaa.pmel.sdimetadata.instrument.Equilibrator;
+import gov.noaa.pmel.sdimetadata.instrument.GasSensor;
 import gov.noaa.pmel.sdimetadata.instrument.Instrument;
 import gov.noaa.pmel.sdimetadata.instrument.Sampler;
 import gov.noaa.pmel.sdimetadata.person.Investigator;
@@ -12,6 +14,7 @@ import gov.noaa.pmel.sdimetadata.person.Person;
 import gov.noaa.pmel.sdimetadata.person.Submitter;
 import gov.noaa.pmel.sdimetadata.platform.Platform;
 import gov.noaa.pmel.sdimetadata.util.Datestamp;
+import gov.noaa.pmel.sdimetadata.util.NumericString;
 import gov.noaa.pmel.sdimetadata.variable.AirPressure;
 import gov.noaa.pmel.sdimetadata.variable.AquGasConc;
 import gov.noaa.pmel.sdimetadata.variable.DataVar;
@@ -736,6 +739,31 @@ public class OcadsWriter extends DocumentHandler {
             strBldr.append(instDesc);
         }
         setElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME, strBldr.toString());
+
+        if ( (var instanceof AquGasConc) && (inst instanceof GasSensor) ) {
+            // Repeat information in these sepcific fields
+            setElementText(ancestor, GAS_SENSOR_MANUFACTURER_ELEMENT_NAME, inst.getManufacturer());
+            setElementText(ancestor, GAS_SENSOR_MODEL_ELEMENT_NAME, inst.getModel());
+            setElementText(ancestor, GAS_SENSOR_RESOLUTION_ELEMENT_NAME, var.getPrecision().asOneString());
+            setElementText(ancestor, GAS_SENSOR_UNCERTAINTY_ELEMENT_NAME, var.getAccuracy().asOneString());
+            setElementText(ancestor, STANDARDIZATION_DESCRIPTION_ELEMENT_NAME, inst.getCalibration());
+            GasSensor sensor = (GasSensor) inst;
+            setElementText(ancestor, STANDARDIZATION_FREQUENCY_ELEMENT_NAME, sensor.getCalibrationFrequency());
+            for (CalibrationGas gas : sensor.getCalibrationGases()) {
+                Element stdGasElem = addListElement(ancestor, STANDARD_GAS_ELEMENT_NAME);
+                String info = gas.getSupplier();
+                if ( !info.isEmpty() )
+                    info = " from " + info;
+                setElementText(stdGasElem, STANDARD_GAS_MANUFACTURER_ELEMENT_NAME, gas.getId() + info);
+                NumericString numStr = gas.getConcentration();
+                if ( numStr.isValid() )
+                    setElementText(stdGasElem, STANDARD_GAS_CONCENTRATION_ELEMENT_NAME,
+                            numStr.asOneString() + " " + gas.getType());
+                numStr = gas.getAccuracy();
+                if ( numStr.isValid() )
+                    setElementText(stdGasElem, STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME, numStr.asOneString());
+            }
+        }
     }
 
 }
