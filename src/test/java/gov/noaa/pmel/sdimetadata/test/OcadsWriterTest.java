@@ -169,7 +169,12 @@ public class OcadsWriterTest {
                         "seawater. Nature 300: 511-513.",
                 docHandler.getElementText(null, "reference"));
 
-        assertEquals("Port of Call: Honolulu, HI\n" +
+        assertEquals("Other Sensor 1: Manufacturer: Setra; Model: 239; Calibration: Factory calibration; " +
+                        "Location: Attached to equilibrator headspace; Accuracy/Uncertainty: ± 0.052 hPa; " +
+                        "Precision/Resolution: 0.01 hPa; Pressure reading from the Setra-270 on the exit " +
+                        "of the analyzer was added to the differential pressure reading from Setra-239 " +
+                        "attached to the equilibrator headspace to yield the equlibrator pressure.\n" +
+                        "Port of Call: Honolulu, HI\n" +
                         "Port of Call: San Francisco, CA\n" +
                         "Experiment Type: Research Cruise\n" +
                         "Cruise Info: CALWATER II Leg 1\n" +

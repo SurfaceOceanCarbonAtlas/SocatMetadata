@@ -254,7 +254,32 @@ public class OcadsWriter extends DocumentHandler {
         }
         setElementText(null, REFERENCE_ELEMENT_NAME, strBldr.toString());
 
+        ArrayList<Instrument> instruments = mdata.getInstruments();
+        HashSet<String> usedInstrumentNames = new HashSet<String>();
+        for (Variable var : mdata.getVariables()) {
+            Element ancestor = addListElement(null, VARIABLE_ELEMENT_NAME);
+            addVariableFields(ancestor, var);
+            if ( var instanceof DataVar )
+                usedInstrumentNames.addAll(addDataVariableAddnFields(ancestor, (DataVar) var, instruments));
+            if ( var instanceof AirPressure )
+                addAirPressureAddnFields(ancestor, (AirPressure) var);
+            if ( var instanceof GasConc )
+                addGasConcAddnFields(ancestor, (GasConc) var);
+            if ( var instanceof AquGasConc )
+                addAquGasConcAddnFields(ancestor, (AquGasConc) var);
+        }
+
+        // Additional information
         strBldr = new StringBuilder();
+        // Describe any instruments not included elsewhere
+        for (Instrument inst : instruments) {
+            if ( !usedInstrumentNames.contains(inst.getName()) ) {
+                if ( strBldr.length() > 0 )
+                    strBldr.append("\n");
+                strBldr.append(getInstrumentDescription(inst));
+            }
+        }
+        // Include the ports-of-call
         for (String port : info.getPortsOfCall()) {
             if ( strBldr.length() > 0 )
                 strBldr.append("\n");
@@ -262,6 +287,7 @@ public class OcadsWriter extends DocumentHandler {
             strBldr.append(port);
 
         }
+        // And any additional information in the SDIMetadata
         for (String addn : info.getAddnInfo()) {
             if ( strBldr.length() > 0 )
                 strBldr.append("\n");
@@ -271,20 +297,6 @@ public class OcadsWriter extends DocumentHandler {
 
         setElementText(null, WEBSITE_ELEMENT_NAME, info.getWebsite());
         setElementText(null, DOWNLOAD_URL_ELEMENT_NAME, info.getDownloadUrl());
-
-        ArrayList<Instrument> instruments = mdata.getInstruments();
-        for (Variable var : mdata.getVariables()) {
-            Element ancestor = addListElement(null, VARIABLE_ELEMENT_NAME);
-            addVariableFields(ancestor, var);
-            if ( var instanceof DataVar )
-                addDataVariableAddnFields(ancestor, (DataVar) var, instruments);
-            if ( var instanceof AirPressure )
-                addAirPressureAddnFields(ancestor, (AirPressure) var);
-            if ( var instanceof GasConc )
-                addGasConcAddnFields(ancestor, (GasConc) var);
-            if ( var instanceof AquGasConc )
-                addAquGasConcAddnFields(ancestor, (AquGasConc) var);
-        }
 
         Document doc = new Document(rootElement);
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
@@ -396,8 +408,13 @@ public class OcadsWriter extends DocumentHandler {
      *         use the information given in this data variable
      * @param instruments
      *         list of instruments used in this dataset
+     *
+     * @return set of instrument names used in the description
      */
-    private void addDataVariableAddnFields(Element ancestor, DataVar var, ArrayList<Instrument> instruments) {
+    private HashSet<String> addDataVariableAddnFields(Element ancestor, DataVar var,
+            ArrayList<Instrument> instruments) {
+        HashSet<String> usedInstNames = new HashSet<String>();
+
         setElementText(ancestor, VARIABLE_OBS_TYPE_ELEMENT_NAME, var.getObserveType());
         switch ( var.getMeasureMethod() ) {
             case UNSPECIFIED:
@@ -435,9 +452,9 @@ public class OcadsWriter extends DocumentHandler {
                 if ( !strSet.contains(inst.getName()) )
                     continue;
                 if ( inst instanceof Sampler )
-                    addSamplerElements(ancestor, var, (Sampler) inst, instruments);
+                    usedInstNames.addAll(addSamplerElements(ancestor, var, (Sampler) inst, instruments));
                 else if ( inst instanceof Analyzer )
-                    addAnalyzerElements(ancestor, var, (Analyzer) inst);
+                    usedInstNames.addAll(addAnalyzerElements(ancestor, var, (Analyzer) inst));
             }
         }
 
@@ -522,6 +539,8 @@ public class OcadsWriter extends DocumentHandler {
             // Not handling DIC, TA, or pH at this time
             setElementText(ancestor, VARIABLE_INTERNAL_ELEMENT_NAME, "0");
         }
+
+        return usedInstNames;
     }
 
     /**
@@ -610,8 +629,14 @@ public class OcadsWriter extends DocumentHandler {
      *         describe this sampling instrument
      * @param instruments
      *         list of all instruments (for describing any attached instruments)
+     *
+     * @return set of instrument names used in the description
      */
-    private void addSamplerElements(Element ancestor, DataVar var, Sampler inst, ArrayList<Instrument> instruments) {
+    private HashSet<String> addSamplerElements(Element ancestor, DataVar var, Sampler inst,
+            ArrayList<Instrument> instruments) {
+        HashSet<String> usedInstNames = new HashSet<String>();
+        usedInstNames.add(inst.getName());
+
         if ( (var instanceof AquGasConc) && (inst instanceof Equilibrator) ) {
             // These tags are only available for aqueous CO2
             Equilibrator equil = (Equilibrator) inst;
@@ -644,6 +669,7 @@ public class OcadsWriter extends DocumentHandler {
                     for (Instrument attachInst : instruments) {
                         if ( attachInstNames.contains(attachInst.getName()) ) {
                             if ( attachInst instanceof TemperatureSensor ) {
+                                usedInstNames.add(attachInst.getName());
                                 String info = getElementText(ancestor, EQUILIBRATOR_TEMPERATURE_EQUI_ELEMENT_NAME);
                                 if ( !info.isEmpty() )
                                     info += "\n";
@@ -652,6 +678,7 @@ public class OcadsWriter extends DocumentHandler {
 
                             }
                             if ( attachInst instanceof PressureSensor ) {
+                                usedInstNames.add(attachInst.getName());
                                 String info = getElementText(ancestor, EQUILIBRATOR_PRESSURE_EQUI_ELEMENT_NAME);
                                 if ( !info.isEmpty() )
                                     info += "\n";
@@ -681,6 +708,8 @@ public class OcadsWriter extends DocumentHandler {
             str += "\n";
         str += getInstrumentDescription(inst);
         setElementText(ancestor, VARIABLE_SAMPLING_INST_ELEMENT_NAME, str);
+
+        return usedInstNames;
     }
 
     /**
@@ -692,8 +721,13 @@ public class OcadsWriter extends DocumentHandler {
      *         describe the analyzer appropriately for this variable
      * @param inst
      *         describe this analyzing instrument
+     *
+     * @return set of instrument names used in the description
      */
-    private void addAnalyzerElements(Element ancestor, DataVar var, Analyzer inst) {
+    private HashSet<String> addAnalyzerElements(Element ancestor, DataVar var, Analyzer inst) {
+        HashSet<String> usedInstNames = new HashSet<String>();
+        usedInstNames.add(inst.getName());
+
         // Always describe everything under the generic analyzing instrument tag
         String str = getElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME);
         if ( !str.isEmpty() )
@@ -725,6 +759,8 @@ public class OcadsWriter extends DocumentHandler {
                     setElementText(stdGasElem, STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME, numStr.asOneString());
             }
         }
+
+        return usedInstNames;
     }
 
     /**
