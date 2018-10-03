@@ -27,12 +27,14 @@ import gov.noaa.pmel.sdimetadata.variable.MethodType;
 import gov.noaa.pmel.sdimetadata.variable.Temperature;
 import gov.noaa.pmel.sdimetadata.variable.Variable;
 import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
+import gov.noaa.pmel.sdimetadata.xml.CdiacReader.VarType;
 import org.junit.Test;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
@@ -42,8 +44,43 @@ import static org.junit.Assert.assertTrue;
 public class CdiacReaderTest {
 
     @Test
+    public void testGetVarTypeFromColumnName() {
+        HashMap<String,VarType> addnSet = new HashMap<String,VarType>();
+        addnSet.put("mynameforsst", VarType.SEA_SURFACE_TEMPERATURE);
+        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING), addnSet);
+        assertEquals(VarType.FCO2_WATER_EQU, reader.getVarTypeFromColumnName("fCO2_equ_w"));
+        assertEquals(VarType.FCO2_WATER_SST, reader.getVarTypeFromColumnName("fCO2_SST_100_hum [uatm]"));
+        assertEquals(VarType.PCO2_WATER_EQU, reader.getVarTypeFromColumnName("pCO2 SW Equi"));
+        assertEquals(VarType.PCO2_WATER_SST, reader.getVarTypeFromColumnName("pCO2w-SST (uatm)"));
+        assertEquals(VarType.XCO2_WATER_EQU, reader.getVarTypeFromColumnName("xco2sw ( ppm )!"));
+        assertEquals(VarType.XCO2_WATER_SST, reader.getVarTypeFromColumnName("xCO2,Water,SST"));
+        assertEquals(VarType.FCO2_ATM_ACTUAL, reader.getVarTypeFromColumnName("fCO2_Atm-Wet"));
+        assertEquals(VarType.FCO2_ATM_INTERP, reader.getVarTypeFromColumnName("fCO2-Atm (Interp)"));
+        assertEquals(VarType.PCO2_ATM_ACTUAL, reader.getVarTypeFromColumnName("pCO2AtmActual"));
+        assertEquals(VarType.PCO2_ATM_INTERP, reader.getVarTypeFromColumnName("pCO2AtmInterp"));
+        assertEquals(VarType.XCO2_ATM_ACTUAL, reader.getVarTypeFromColumnName("xCO2AirDry (umol/mol)"));
+        assertEquals(VarType.XCO2_ATM_INTERP, reader.getVarTypeFromColumnName("xCO2 AtmI nte rp"));
+        assertEquals(VarType.SEA_SURFACE_TEMPERATURE, reader.getVarTypeFromColumnName("SST °C"));
+        assertEquals(VarType.EQUILIBRATOR_TEMPERATURE, reader.getVarTypeFromColumnName("Equ Temp"));
+        assertEquals(VarType.SEA_LEVEL_PRESSURE, reader.getVarTypeFromColumnName("PPPP"));
+        assertEquals(VarType.EQUILIBRATOR_PRESSURE, reader.getVarTypeFromColumnName("PRS EQ"));
+        assertEquals(VarType.SALINITY, reader.getVarTypeFromColumnName("Sal <permil>"));
+        assertEquals(VarType.WOCE_CO2_WATER, reader.getVarTypeFromColumnName("WOCE {Water}"));
+        assertEquals(VarType.WOCE_CO2_ATM, reader.getVarTypeFromColumnName("QC CO2 Air"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Sta"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Day"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Lon"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Lat"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Depth"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("Time"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName("WOCE SST"));
+        assertEquals(VarType.OTHER, reader.getVarTypeFromColumnName(""));
+        assertEquals(VarType.SEA_SURFACE_TEMPERATURE, reader.getVarTypeFromColumnName("My Name (for SST)"));
+    }
+
+    @Test
     public void testCreateSDIMetadata() {
-        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING));
+        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING), null);
         SDIMetadata mdata = reader.createSDIMetadata();
 
         Submitter submitter = mdata.getSubmitter();

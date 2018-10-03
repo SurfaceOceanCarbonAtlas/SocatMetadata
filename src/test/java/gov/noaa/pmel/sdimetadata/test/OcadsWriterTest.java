@@ -42,7 +42,7 @@ public class OcadsWriterTest {
     @Test
     public void writeSDIMetadata() {
         // Create the SDIMetadata from the AOML CDIAC XML
-        CdiacReader cdiacReader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING));
+        CdiacReader cdiacReader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING), null);
         SDIMetadata metadata = cdiacReader.createSDIMetadata();
         // Create the OCADS XML from this SDIMetadata
         String xmlString = null;
