@@ -13,9 +13,11 @@ public class DataVar extends Variable implements Cloneable {
     protected MethodType measureMethod;
     protected String methodDescription;
     protected String methodReference;
+    protected String manipulationDescription;
     protected String samplingLocation;
     protected String samplingElevation;
     protected String storageMethod;
+    protected String duration;
     protected String analysisTemperature;
     protected String replication;
     protected Person researcher;
@@ -30,9 +32,11 @@ public class DataVar extends Variable implements Cloneable {
         measureMethod = MethodType.UNSPECIFIED;
         methodDescription = "";
         methodReference = "";
+        manipulationDescription = "";
         samplingLocation = "";
         samplingElevation = "";
         storageMethod = "";
+        duration = "";
         analysisTemperature = "";
         replication = "";
         researcher = new Person();
@@ -50,9 +54,11 @@ public class DataVar extends Variable implements Cloneable {
             measureMethod = other.measureMethod;
             methodDescription = other.methodDescription;
             methodReference = other.methodReference;
+            manipulationDescription = other.manipulationDescription;
             samplingLocation = other.samplingLocation;
             samplingElevation = other.samplingElevation;
             storageMethod = other.storageMethod;
+            duration = other.duration;
             analysisTemperature = other.analysisTemperature;
             replication = other.replication;
             researcher = other.researcher.clone();
@@ -63,9 +69,11 @@ public class DataVar extends Variable implements Cloneable {
             measureMethod = MethodType.UNSPECIFIED;
             methodDescription = "";
             methodReference = "";
+            manipulationDescription = "";
             samplingLocation = "";
             samplingElevation = "";
             storageMethod = "";
+            duration = "";
             analysisTemperature = "";
             replication = "";
             researcher = new Person();
@@ -91,6 +99,10 @@ public class DataVar extends Variable implements Cloneable {
             case COMPUTED:
                 if ( methodDescription.isEmpty() )
                     invalid.add("methodDescription");
+                break;
+            case MANIPULATION:
+                if ( methodDescription.isEmpty() && manipulationDescription.isEmpty() )
+                    invalid.add("manipulationDescription");
                 break;
             default:
                 if ( instrumentNames.isEmpty() )
@@ -162,6 +174,22 @@ public class DataVar extends Variable implements Cloneable {
     }
 
     /**
+     * @return description of the manipulation described by this variable; never null but may be empty
+     */
+    public String getManipulationDescription() {
+        return manipulationDescription;
+    }
+
+    /**
+     * @param manipulationDescription
+     *         assign as the description of the manipulation described by this variable;
+     *         if null, an empty string is assigned
+     */
+    public void setManipulationDescription(String manipulationDescription) {
+        this.manipulationDescription = (manipulationDescription != null) ? manipulationDescription.trim() : "";
+    }
+
+    /**
      * @return sampling location for this variable; never null but may be an empty string
      */
     public String getSamplingLocation() {
@@ -205,6 +233,22 @@ public class DataVar extends Variable implements Cloneable {
      */
     public void setStorageMethod(String storageMethod) {
         this.storageMethod = (storageMethod != null) ? storageMethod.trim() : "";
+    }
+
+    /**
+     * @return duration for settlement, colonization, or experiment studies; never null but may be empty
+     */
+    public String getDuration() {
+        return duration;
+    }
+
+    /**
+     * @param duration
+     *         assign as the duration for settlement, colonization, or experiment studies;
+     *         if null, an empty string is assigned
+     */
+    public void setDuration(String duration) {
+        this.duration = (duration != null) ? duration.trim() : "";
     }
 
     /**
@@ -293,9 +337,11 @@ public class DataVar extends Variable implements Cloneable {
         dup.measureMethod = measureMethod;
         dup.methodDescription = methodDescription;
         dup.methodReference = methodReference;
+        dup.manipulationDescription = manipulationDescription;
         dup.samplingLocation = samplingLocation;
         dup.samplingElevation = samplingElevation;
         dup.storageMethod = storageMethod;
+        dup.duration = duration;
         dup.analysisTemperature = analysisTemperature;
         dup.replication = replication;
         dup.researcher = researcher.clone();
@@ -324,11 +370,15 @@ public class DataVar extends Variable implements Cloneable {
             return false;
         if ( !methodReference.equals(dataVar.methodReference) )
             return false;
+        if ( !manipulationDescription.equals(dataVar.manipulationDescription) )
+            return false;
         if ( !samplingLocation.equals(dataVar.samplingLocation) )
             return false;
         if ( !samplingElevation.equals(dataVar.samplingElevation) )
             return false;
         if ( !storageMethod.equals(dataVar.storageMethod) )
+            return false;
+        if ( !duration.equals(dataVar.duration) )
             return false;
         if ( !analysisTemperature.equals(dataVar.analysisTemperature) )
             return false;
@@ -350,9 +400,11 @@ public class DataVar extends Variable implements Cloneable {
         result = result * prime + measureMethod.hashCode();
         result = result * prime + methodDescription.hashCode();
         result = result * prime + methodReference.hashCode();
+        result = result * prime + manipulationDescription.hashCode();
         result = result * prime + samplingLocation.hashCode();
         result = result * prime + samplingElevation.hashCode();
         result = result * prime + storageMethod.hashCode();
+        result = result * prime + duration.hashCode();
         result = result * prime + analysisTemperature.hashCode();
         result = result * prime + replication.hashCode();
         result = result * prime + researcher.hashCode();
@@ -368,9 +420,11 @@ public class DataVar extends Variable implements Cloneable {
                 ", measureMethod=" + measureMethod +
                 ", methodDescription='" + methodDescription + '\'' +
                 ", methodReference='" + methodReference + '\'' +
+                ", manipulationDescription='" + manipulationDescription + '\'' +
                 ", samplingLocation='" + samplingLocation + '\'' +
                 ", samplingElevation='" + samplingElevation + '\'' +
                 ", storageMethod='" + storageMethod + '\'' +
+                ", duration='" + duration + '\'' +
                 ", analysisTemperature='" + analysisTemperature + '\'' +
                 ", replication='" + replication + '\'' +
                 ", researcher=" + researcher +

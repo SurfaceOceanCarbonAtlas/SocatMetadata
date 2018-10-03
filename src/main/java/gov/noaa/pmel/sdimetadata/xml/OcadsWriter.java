@@ -123,10 +123,12 @@ public class OcadsWriter extends DocumentHandler {
     private static final String VARIABLE_OBS_TYPE_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "observationType";
     private static final String VARIABLE_IN_SITU_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "insitu";
     private static final String VARIABLE_MEASURED_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "measured";
+    private static final String VARIABLE_MANIPULATION_METHOD_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "manipulationMethod";
     private static final String VARIABLE_CALC_METHOD_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "calcMethod";
     private static final String VARIABLE_SAMPLING_INST_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "samplingInstrument";
     private static final String VARIABLE_ANALYZING_INST_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "analyzingInstrument";
     private static final String VARIABLE_REPLICATE_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "replicate";
+    private static final String VARIABLE_DURATION_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "duration";
     private static final String VARIABLE_UNCERTAINTY_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "uncertainty";
     private static final String VARIABLE_FLAG_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "flag";
     private static final String VARIABLE_METHOD_REFERENCE_ELEMENT_NAME = VARIABLE_ELEMENT_NAME + SEP + "methodReference";
@@ -396,6 +398,8 @@ public class OcadsWriter extends DocumentHandler {
     private void addDataVariableAddnFields(Element ancestor, DataVar var, ArrayList<Instrument> instruments) {
         setElementText(ancestor, VARIABLE_OBS_TYPE_ELEMENT_NAME, var.getObserveType());
         switch ( var.getMeasureMethod() ) {
+            case UNSPECIFIED:
+                break;
             case MEASURED_INSITU:
                 setElementText(ancestor, VARIABLE_IN_SITU_ELEMENT_NAME, "Measured in-situ");
                 setElementText(ancestor, VARIABLE_MEASURED_ELEMENT_NAME, "Measured in-situ");
@@ -403,6 +407,14 @@ public class OcadsWriter extends DocumentHandler {
             case MEASURED_DISCRETE:
                 setElementText(ancestor, VARIABLE_IN_SITU_ELEMENT_NAME, "Measured from collected sample");
                 setElementText(ancestor, VARIABLE_MEASURED_ELEMENT_NAME, "Measured from collected sample");
+                break;
+            case MANIPULATION:
+                setElementText(ancestor, VARIABLE_IN_SITU_ELEMENT_NAME, "Manipulation");
+                setElementText(ancestor, VARIABLE_MEASURED_ELEMENT_NAME, "Manipulation");
+                break;
+            case RESPONSE:
+                setElementText(ancestor, VARIABLE_IN_SITU_ELEMENT_NAME, "Response");
+                setElementText(ancestor, VARIABLE_MEASURED_ELEMENT_NAME, "Response");
                 break;
             case COMPUTED:
                 setElementText(ancestor, VARIABLE_IN_SITU_ELEMENT_NAME, "Computed");
@@ -412,6 +424,8 @@ public class OcadsWriter extends DocumentHandler {
         }
         setElementText(ancestor, VARIABLE_CALC_METHOD_ELEMENT_NAME, var.getMethodDescription());
         setElementText(ancestor, VARIABLE_METHOD_REFERENCE_ELEMENT_NAME, var.getMethodReference());
+        setElementText(ancestor, VARIABLE_MANIPULATION_METHOD_ELEMENT_NAME, var.getManipulationDescription());
+        setElementText(ancestor, VARIABLE_DURATION_ELEMENT_NAME, var.getDuration());
 
         HashSet<String> strSet = var.getInstrumentNames();
         if ( !strSet.isEmpty() ) {
@@ -453,8 +467,6 @@ public class OcadsWriter extends DocumentHandler {
                 setElementText(ancestor, VARIABLE_ADDN_INFO_ELEMENT_NAME, strBldr.toString());
             }
         }
-
-        // TODO:
 
         if ( (var instanceof AquGasConc) && MethodType.MEASURED_DISCRETE.equals(var.getMeasureMethod()) ) {
             // These tags are only defined for values from stored samples for CO2 and pH - but not doing pH at this time

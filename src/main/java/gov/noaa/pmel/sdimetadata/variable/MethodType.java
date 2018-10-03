@@ -17,6 +17,14 @@ public enum MethodType {
      */
     MEASURED_DISCRETE,
     /**
+     * manipulation condition
+     */
+    MANIPULATION,
+    /**
+     * biological response
+     */
+    RESPONSE,
+    /**
      * computed from other values
      */
     COMPUTED

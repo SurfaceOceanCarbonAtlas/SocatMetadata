@@ -19,6 +19,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+/**
+ * Far from a complete test.
+ * Focus of this test is transfer of metadata content from CDIAC to OCADS.
+ */
 public class OcadsWriterTest {
 
     private class MyDocHandler extends DocumentHandler {
