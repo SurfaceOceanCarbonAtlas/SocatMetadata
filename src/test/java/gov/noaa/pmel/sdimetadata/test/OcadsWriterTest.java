@@ -284,8 +284,14 @@ public class OcadsWriterTest {
             assertEquals("Yes", docHandler.getElementText(var, equilibratorVented));
             assertEquals("1.5 - 2.0 L/min", docHandler.getElementText(var, equilibratorWaterFlowRate));
             assertEquals("70 - 150 ml/min", docHandler.getElementText(var, equilibratorGasFlowRate));
-            assertEquals("", docHandler.getElementText(var, temperatureEquilibratorMethod));
-            assertEquals("", docHandler.getElementText(var, pressureEquilibratorMethod));
+            assertEquals("Equilibrator Temperature Sensor: Manufacturer: Hart; Model: 1521; " +
+                            "Calibration: Factory calibration; Warming: 0.1 - 0.6 °C",
+                    docHandler.getElementText(var, temperatureEquilibratorMethod));
+            assertEquals("Equilibrator Pressure Sensor: Manufacturer: Setra; Model: 270; " +
+                            "Calibration: Factory calibration.; Pressure reading from the Setra-270 on the exit " +
+                            "of the analyzer was added to the differential pressure reading from Setra-239 " +
+                            "attached to the equilibrator headspace to yield the equlibrator pressure.",
+                    docHandler.getElementText(var, pressureEquilibratorMethod));
             assertEquals("Gas stream passes through a thermoelectric condenser (~5 °C) and then " +
                             "through a Perma Pure (Nafion) dryer before reaching the analyzer (90% dry).",
                     docHandler.getElementText(var, dryMethod));
@@ -787,8 +793,14 @@ public class OcadsWriterTest {
             assertEquals("Yes", docHandler.getElementText(var, equilibratorVented));
             assertEquals("1.5 - 2.0 L/min", docHandler.getElementText(var, equilibratorWaterFlowRate));
             assertEquals("70 - 150 ml/min", docHandler.getElementText(var, equilibratorGasFlowRate));
-            assertEquals("", docHandler.getElementText(var, temperatureEquilibratorMethod));
-            assertEquals("", docHandler.getElementText(var, pressureEquilibratorMethod));
+            assertEquals("Equilibrator Temperature Sensor: Manufacturer: Hart; Model: 1521; " +
+                            "Calibration: Factory calibration; Warming: 0.1 - 0.6 °C",
+                    docHandler.getElementText(var, temperatureEquilibratorMethod));
+            assertEquals("Equilibrator Pressure Sensor: Manufacturer: Setra; Model: 270; " +
+                            "Calibration: Factory calibration.; Pressure reading from the Setra-270 on the exit " +
+                            "of the analyzer was added to the differential pressure reading from Setra-239 " +
+                            "attached to the equilibrator headspace to yield the equlibrator pressure.",
+                    docHandler.getElementText(var, pressureEquilibratorMethod));
             assertEquals("Gas stream passes through a thermoelectric condenser (~5 °C) and then " +
                             "through a Perma Pure (Nafion) dryer before reaching the analyzer (90% dry).",
                     docHandler.getElementText(var, dryMethod));

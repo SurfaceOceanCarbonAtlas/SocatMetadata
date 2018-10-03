@@ -199,6 +199,11 @@ public class CdiacReaderTest {
                     strList.get(0));
 
             assertTrue(inst instanceof Sampler);
+            Sampler sampler = (Sampler) inst;
+            assertEquals(new HashSet<String>(Arrays.asList(
+                    "Equilibrator Pressure Sensor",
+                    "Equilibrator Temperature Sensor"
+            )), sampler.getInstrumentNames());
 
             assertTrue(inst instanceof Equilibrator);
             Equilibrator equilibrator = (Equilibrator) inst;

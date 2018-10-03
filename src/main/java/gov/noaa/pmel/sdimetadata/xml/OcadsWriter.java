@@ -8,7 +8,9 @@ import gov.noaa.pmel.sdimetadata.instrument.CalibrationGas;
 import gov.noaa.pmel.sdimetadata.instrument.Equilibrator;
 import gov.noaa.pmel.sdimetadata.instrument.GasSensor;
 import gov.noaa.pmel.sdimetadata.instrument.Instrument;
+import gov.noaa.pmel.sdimetadata.instrument.PressureSensor;
 import gov.noaa.pmel.sdimetadata.instrument.Sampler;
+import gov.noaa.pmel.sdimetadata.instrument.TemperatureSensor;
 import gov.noaa.pmel.sdimetadata.person.Investigator;
 import gov.noaa.pmel.sdimetadata.person.Person;
 import gov.noaa.pmel.sdimetadata.person.Submitter;
@@ -433,7 +435,7 @@ public class OcadsWriter extends DocumentHandler {
                 if ( !strSet.contains(inst.getName()) )
                     continue;
                 if ( inst instanceof Sampler )
-                    addSamplerElements(ancestor, var, (Sampler) inst);
+                    addSamplerElements(ancestor, var, (Sampler) inst, instruments);
                 else if ( inst instanceof Analyzer )
                     addAnalyzerElements(ancestor, var, (Analyzer) inst);
             }
@@ -606,13 +608,15 @@ public class OcadsWriter extends DocumentHandler {
      *         describe the sampler appropriately for this variable
      * @param inst
      *         describe this sampling instrument
+     * @param instruments
+     *         list of all instruments (for describing any attached instruments)
      */
-    private void addSamplerElements(Element ancestor, DataVar var, Sampler inst) {
+    private void addSamplerElements(Element ancestor, DataVar var, Sampler inst, ArrayList<Instrument> instruments) {
         if ( (var instanceof AquGasConc) && (inst instanceof Equilibrator) ) {
             // These tags are only available for aqueous CO2
             Equilibrator equil = (Equilibrator) inst;
             if ( MethodType.MEASURED_INSITU.equals(var.getMeasureMethod()) ) {
-                // These tags are only available for "autonimous" (in-situ) aqueous CO2
+                // These tags are only available for "autonomous" (in-situ) aqueous CO2
                 setElementText(ancestor, EQUILIBRATOR_TYPE_ELEMENT_NAME, equil.getEquilibratorType());
                 StringBuilder strBldr = new StringBuilder();
                 strBldr.append(equil.getChamberVol());
@@ -635,9 +639,28 @@ public class OcadsWriter extends DocumentHandler {
                 setElementText(ancestor, EQUILIBRATOR_VENTED_ELEMENT_NAME, equil.getVenting());
                 setElementText(ancestor, EQUILIBRATOR_WATER_FLOW_RATE_ELEMENT_NAME, equil.getWaterFlowRate());
                 setElementText(ancestor, EQUILIBRATOR_GAS_FLOW_RATE_ELEMENT_NAME, equil.getGasFlowRate());
-                //TODO: equilibrator sensors
-                // setElementText(ancestor, EQUILIBRATOR_TEMPERATURE_EQUI_ELEMENT_NAME, equil.???);
-                // setElementText(ancestor, EQUILIBRATOR_PRESSURE_EQUI_ELEMENT_NAME, equil.???);
+                HashSet<String> attachInstNames = inst.getInstrumentNames();
+                if ( !attachInstNames.isEmpty() ) {
+                    for (Instrument attachInst : instruments) {
+                        if ( attachInstNames.contains(attachInst.getName()) ) {
+                            if ( attachInst instanceof TemperatureSensor ) {
+                                String info = getElementText(ancestor, EQUILIBRATOR_TEMPERATURE_EQUI_ELEMENT_NAME);
+                                if ( !info.isEmpty() )
+                                    info += "\n";
+                                info += getInstrumentDescription(attachInst);
+                                setElementText(ancestor, EQUILIBRATOR_TEMPERATURE_EQUI_ELEMENT_NAME, info);
+
+                            }
+                            if ( attachInst instanceof PressureSensor ) {
+                                String info = getElementText(ancestor, EQUILIBRATOR_PRESSURE_EQUI_ELEMENT_NAME);
+                                if ( !info.isEmpty() )
+                                    info += "\n";
+                                info += getInstrumentDescription(attachInst);
+                                setElementText(ancestor, EQUILIBRATOR_PRESSURE_EQUI_ELEMENT_NAME, info);
+                            }
+                        }
+                    }
+                }
             }
             else if ( MethodType.MEASURED_DISCRETE.equals(var.getMeasureMethod()) ) {
                 // These tags are only available for discrete sampled aqueous CO2
@@ -651,46 +674,13 @@ public class OcadsWriter extends DocumentHandler {
                 setElementText(ancestor, VARIABLE_ANALYSIS_HEADSPACE_VOLUME_ELEMENT_NAME, vol);
             }
         }
-        // Always describe everything under the generic sampling instrument tag
-        StringBuilder strBldr = new StringBuilder();
-        String str = inst.getManufacturer();
-        if ( !str.isEmpty() ) {
-            strBldr.append("Manufacturer: ");
-            strBldr.append(str);
-        }
-        str = inst.getModel();
-        if ( !str.isEmpty() ) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append("Model: ");
-            strBldr.append(str);
-        }
-        str = inst.getId();
-        if ( !str.isEmpty() ) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append("ID/Serial: ");
-            strBldr.append(str);
-        }
-        for (String addn : inst.getAddnInfo()) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append(addn);
-        }
-        String instDesc = strBldr.toString();
 
-        strBldr = new StringBuilder();
-        str = getElementText(ancestor, VARIABLE_SAMPLING_INST_ELEMENT_NAME);
-        if ( !str.isEmpty() ) {
-            strBldr.append(str);
-            strBldr.append("\n");
-        }
-        strBldr.append(inst.getName());
-        if ( !instDesc.isEmpty() ) {
-            strBldr.append(": ");
-            strBldr.append(instDesc);
-        }
-        setElementText(ancestor, VARIABLE_SAMPLING_INST_ELEMENT_NAME, strBldr.toString());
+        // Always describe everything under the generic sampling instrument tag
+        String str = getElementText(ancestor, VARIABLE_SAMPLING_INST_ELEMENT_NAME);
+        if ( !str.isEmpty() )
+            str += "\n";
+        str += getInstrumentDescription(inst);
+        setElementText(ancestor, VARIABLE_SAMPLING_INST_ELEMENT_NAME, str);
     }
 
     /**
@@ -705,52 +695,11 @@ public class OcadsWriter extends DocumentHandler {
      */
     private void addAnalyzerElements(Element ancestor, DataVar var, Analyzer inst) {
         // Always describe everything under the generic analyzing instrument tag
-        StringBuilder strBldr = new StringBuilder();
-        String str = inst.getManufacturer();
-        if ( !str.isEmpty() ) {
-            strBldr.append("Manufacturer: ");
-            strBldr.append(str);
-        }
-        str = inst.getModel();
-        if ( !str.isEmpty() ) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append("Model: ");
-            strBldr.append(str);
-        }
-        str = inst.getId();
-        if ( !str.isEmpty() ) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append("ID/Serial: ");
-            strBldr.append(str);
-        }
-        str = inst.getCalibration();
-        if ( !str.isEmpty() ) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append("Calibration: ");
-            strBldr.append(str);
-        }
-        for (String addn : inst.getAddnInfo()) {
-            if ( strBldr.length() > 0 )
-                strBldr.append("; ");
-            strBldr.append(addn);
-        }
-        String instDesc = strBldr.toString();
-
-        strBldr = new StringBuilder();
-        str = getElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME);
-        if ( !str.isEmpty() ) {
-            strBldr.append(str);
-            strBldr.append("\n");
-        }
-        strBldr.append(inst.getName());
-        if ( !instDesc.isEmpty() ) {
-            strBldr.append(": ");
-            strBldr.append(instDesc);
-        }
-        setElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME, strBldr.toString());
+        String str = getElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME);
+        if ( !str.isEmpty() )
+            str += "\n";
+        str += getInstrumentDescription(inst);
+        setElementText(ancestor, VARIABLE_ANALYZING_INST_ELEMENT_NAME, str);
 
         if ( (var instanceof AquGasConc) && (inst instanceof GasSensor) ) {
             // Repeat information in these sepcific fields
@@ -776,6 +725,59 @@ public class OcadsWriter extends DocumentHandler {
                     setElementText(stdGasElem, STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME, numStr.asOneString());
             }
         }
+    }
+
+    /**
+     * Creates a description of this instrument in the format "(name): (details)" if there are details,
+     * or just "(name)" if there are no details.  Details include, when given, manufacturer, model,
+     * ID/Serial number, calibration information (is the instrument is an Analyzer), and any additional
+     * information.
+     *
+     * @param inst
+     *         instrument to describe
+     *
+     * @return description of this instrument
+     */
+    private String getInstrumentDescription(Instrument inst) {
+        StringBuilder strBldr = new StringBuilder();
+        String str = inst.getManufacturer();
+        if ( !str.isEmpty() ) {
+            strBldr.append("Manufacturer: ");
+            strBldr.append(str);
+        }
+        str = inst.getModel();
+        if ( !str.isEmpty() ) {
+            if ( strBldr.length() > 0 )
+                strBldr.append("; ");
+            strBldr.append("Model: ");
+            strBldr.append(str);
+        }
+        str = inst.getId();
+        if ( !str.isEmpty() ) {
+            if ( strBldr.length() > 0 )
+                strBldr.append("; ");
+            strBldr.append("ID/Serial: ");
+            strBldr.append(str);
+        }
+        if ( inst instanceof Analyzer ) {
+            str = ((Analyzer) inst).getCalibration();
+            if ( !str.isEmpty() ) {
+                if ( strBldr.length() > 0 )
+                    strBldr.append("; ");
+                strBldr.append("Calibration: ");
+                strBldr.append(str);
+            }
+        }
+        for (String addn : inst.getAddnInfo()) {
+            if ( strBldr.length() > 0 )
+                strBldr.append("; ");
+            strBldr.append(addn);
+        }
+        // Add the instrument name at the start, with ": " if there is anything added above
+        if ( strBldr.length() > 0 )
+            strBldr.insert(0, ": ");
+        strBldr.insert(0, inst.getName());
+        return strBldr.toString();
     }
 
 }

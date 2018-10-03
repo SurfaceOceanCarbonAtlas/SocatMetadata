@@ -746,14 +746,20 @@ public class CdiacReader extends DocumentHandler {
 
         Equilibrator equilibrator = new Equilibrator();
         equilibrator.setName("Equilibrator");
-        // sampler.setId(id); - not specified
-        // sampler.setManufacturer(manufacturer); - not specified
-        // sampler.setModel(model); - not specified
+        // equilibrator.setId(id); - not specified
+        // equilibrator.setManufacturer(manufacturer); - not specified
+        // equilibrator.setModel(model); - not specified
+
+        // The following are always added below
+        equilibrator.setInstrumentNames(Arrays.asList(
+                "Equilibrator Temperature Sensor",
+                "Equilibrator Pressure Sensor"
+        ));
 
         equilibrator.setEquilibratorType(getElementText(null, EQUI_TYPE_ELEMENT_NAME));
         equilibrator.setChamberVol(getElementText(null, EQUI_VOLUME_ELEMENT_NAME));
-        // sampler.setChamberWaterVol(chamberWaterVol); - not specified but probably part of chamber volume
-        // sampler.setChamberGasVol(chamberGasVol); - not specified but probably part of chamber volume
+        // equilibrator.setChamberWaterVol(chamberWaterVol); - not specified but probably part of chamber volume
+        // equilibrator.setChamberGasVol(chamberGasVol); - not specified but probably part of chamber volume
         equilibrator.setWaterFlowRate(getElementText(null, WATER_FLOW_RATE_ELEMENT_NAME));
         equilibrator.setGasFlowRate(getElementText(null, GAS_FLOW_RATE_ELEMENT_NAME));
         equilibrator.setVenting(getElementText(null, VENTED_ELEMENT_NAME));

@@ -1,21 +1,26 @@
 package gov.noaa.pmel.sdimetadata.test;
 
 import gov.noaa.pmel.sdimetadata.instrument.Analyzer;
-import gov.noaa.pmel.sdimetadata.instrument.GasSensor;
 import gov.noaa.pmel.sdimetadata.instrument.Instrument;
 import gov.noaa.pmel.sdimetadata.instrument.Sampler;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class SamplerTest {
+
+    private static final String EMPTY_STRING = "";
+    private static final ArrayList<String> EMPTY_NAMELIST = new ArrayList<String>();
+    private static final HashSet<String> EMPTY_NAMESET = new HashSet<String>();
 
     private static final String NAME = "Equilibrator";
     private static final String ID = "325";
@@ -25,6 +30,43 @@ public class SamplerTest {
             "Some comment",
             "Another comment"
     ));
+    private static final HashSet<String> INSTRUMENT_NAMES = new HashSet<String>(Arrays.asList(
+            "Equilibrator Pressure Sensor",
+            "Equilibrator Temperature Sensor"
+    ));
+
+    @Test
+    public void testGetSetInstrumentNames() {
+        Sampler sampler = new Sampler();
+        assertEquals(EMPTY_NAMESET, sampler.getInstrumentNames());
+        sampler.setInstrumentNames(INSTRUMENT_NAMES);
+        HashSet<String> instNames = sampler.getInstrumentNames();
+        assertEquals(INSTRUMENT_NAMES, instNames);
+        assertNotSame(INSTRUMENT_NAMES, instNames);
+        assertNotSame(instNames, sampler.getInstrumentNames());
+        assertEquals(EMPTY_NAMELIST, sampler.getAddnInfo());
+        assertEquals(EMPTY_STRING, sampler.getModel());
+        assertEquals(EMPTY_STRING, sampler.getManufacturer());
+        assertEquals(EMPTY_STRING, sampler.getId());
+        assertEquals(EMPTY_STRING, sampler.getName());
+        sampler.setInstrumentNames(null);
+        assertEquals(EMPTY_NAMESET, sampler.getInstrumentNames());
+        sampler.setInstrumentNames(EMPTY_NAMELIST);
+        assertEquals(EMPTY_NAMESET, sampler.getInstrumentNames());
+        try {
+            sampler.setInstrumentNames(Arrays.asList("Equilibator Pressure Sensor", "\n"));
+            fail("setInstrumentNames called with a list containing a blank string succeeded");
+        } catch ( IllegalArgumentException ex ) {
+            // Expected result
+        }
+        try {
+            sampler.setInstrumentNames(Arrays.asList("Equilibator Pressure Sensor", null));
+            fail("setInstrumentNames called with a list containing null succeeded");
+        } catch ( IllegalArgumentException ex ) {
+            // Expected result
+        }
+
+    }
 
     @Test
     public void testClone() {
@@ -38,6 +80,7 @@ public class SamplerTest {
         sampler.setManufacturer(MANUFACTURER);
         sampler.setModel(MODEL);
         sampler.setAddnInfo(ADDN_INFO);
+        sampler.setInstrumentNames(INSTRUMENT_NAMES);
         assertNotEquals(sampler, dup);
 
         dup = sampler.clone();
@@ -111,6 +154,15 @@ public class SamplerTest {
         assertEquals(first.hashCode(), second.hashCode());
         assertTrue(first.equals(second));
         other.setAddnInfo(ADDN_INFO);
+        assertFalse(first.equals(other));
+        assertTrue(other.equals(second));
+
+        first.setInstrumentNames(INSTRUMENT_NAMES);
+        assertNotEquals(first.hashCode(), second.hashCode());
+        assertFalse(first.equals(second));
+        second.setInstrumentNames(INSTRUMENT_NAMES);
+        assertEquals(first.hashCode(), second.hashCode());
+        assertTrue(first.equals(second));
         assertFalse(first.equals(other));
         assertTrue(other.equals(second));
     }
