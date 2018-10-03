@@ -4,9 +4,9 @@ Java library representing metadata with an emphasis on ocean data.  The
 top-level class is `gov.noaa.pmel.sdimetadata.SDIMetadata`.  The classes
 in the `gov.noaa.pmel.sdimetadata.xml` package are used to read XML to
 create an SDIMetadata object and write XML from an SDIMetadata object.
-The class gov.noaa.pmel.sdimetadata.app.CdiacToOcadsConverter can be used
-as a command-line application to covert, to the extent possible, from
-CDIAC to OCADS metadata XML.
+The class `gov.noaa.pmel.sdimetadata.app.CdiacToOcadsConverter` can be
+used as a command-line application to covert, to the extent possible,
+from CDIAC to OCADS metadata XML.
 
 All classes, except for those in the `gov.noaa.pmel.sdimetadata.xml` package,
 are JavaBeans implementing Cloneable.  These classes, except for those in
