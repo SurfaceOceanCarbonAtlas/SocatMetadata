@@ -11,32 +11,15 @@ import java.util.ArrayList;
  */
 public class GasSensor extends Analyzer implements Cloneable {
 
-    protected String calibrationFrequency;
     protected ArrayList<CalibrationGas> calibrationGases;
 
     public GasSensor() {
         super();
-        calibrationFrequency = "";
         calibrationGases = new ArrayList<CalibrationGas>();
     }
 
     /**
-     * @return the calibration frequency; never null but may be empty
-     */
-    public String getCalibrationFrequency() {
-        return calibrationFrequency;
-    }
-
-    /**
-     * @param calibrationFrequency
-     *         assign as the calibration frequency; if null or blank, an empty string is assigned
-     */
-    public void setCalibrationFrequency(String calibrationFrequency) {
-        this.calibrationFrequency = (calibrationFrequency != null) ? calibrationFrequency.trim() : "";
-    }
-
-    /**
-     * @return the list of calibration gasses used; never null but may be empty.
+     * @return the list of calibration gases used; never null but may be empty.
      *         The list will not contain null entries.
      */
     public ArrayList<CalibrationGas> getCalibrationGases() {
@@ -49,10 +32,10 @@ public class GasSensor extends Analyzer implements Cloneable {
 
     /**
      * @param calibrationGases
-     *         assign as the list of calibration gasses; if null, an empty list is assigned.
+     *         assign as the list of calibration gases; if null, an empty list is assigned.
      *
      * @throws IllegalArgumentException
-     *         if any of the gasses given in the list are null
+     *         if any of the gases given in the list are null
      */
     public void setCalibrationGases(Iterable<CalibrationGas> calibrationGases) throws IllegalArgumentException {
         this.calibrationGases.clear();
@@ -68,7 +51,6 @@ public class GasSensor extends Analyzer implements Cloneable {
     @Override
     public GasSensor clone() {
         GasSensor dup = (GasSensor) super.clone();
-        dup.calibrationFrequency = calibrationFrequency;
         dup.calibrationGases = new ArrayList<CalibrationGas>(calibrationGases.size());
         for (CalibrationGas gas : calibrationGases) {
             dup.calibrationGases.add(gas.clone());
@@ -88,8 +70,6 @@ public class GasSensor extends Analyzer implements Cloneable {
             return false;
 
         GasSensor other = (GasSensor) obj;
-        if ( !calibrationFrequency.equals(other.calibrationFrequency) )
-            return false;
         if ( !calibrationGases.equals(other.calibrationGases) )
             return false;
 
@@ -100,7 +80,6 @@ public class GasSensor extends Analyzer implements Cloneable {
     public int hashCode() {
         final int prime = 37;
         int result = super.hashCode();
-        result = result * prime + calibrationFrequency.hashCode();
         result = result * prime + calibrationGases.hashCode();
         return result;
     }
@@ -109,7 +88,6 @@ public class GasSensor extends Analyzer implements Cloneable {
     public String toString() {
         String repr = super.toString().replaceFirst("Analyzer", "GasSensor");
         return repr.substring(0, repr.length() - 1) +
-                ", calibrationFrequency=" + calibrationFrequency +
                 ", calibrationGases=" + calibrationGases +
                 '}';
     }

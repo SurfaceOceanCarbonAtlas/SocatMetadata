@@ -270,9 +270,9 @@ public class OcadsWriterTest {
                     docHandler.getElementText(var, samplingInstrument));
             assertEquals("CO2 Sensor: Manufacturer: LI-COR; Model: LI-6262; Calibration: The analyzer is " +
                             "calibrated every 3.25 hours with standards from ESRL in Boulder, CO that are directly " +
-                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; The instrument is located " +
-                            "in an air-conditioned laboratory.  99.9% Nitrogen gas and the high standard (Std 4) are " +
-                            "used to set the zero and span of the LI-COR analyzer.",
+                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; Number of non-zero gases: " +
+                            "4; The instrument is located in an air-conditioned laboratory.  99.9% Nitrogen gas and " +
+                            "the high standard (Std 4) are used to set the zero and span of the LI-COR analyzer.",
                     docHandler.getElementText(var, analyzingInstrument));
             assertEquals("", docHandler.getElementText(var, duration));
             assertEquals("", docHandler.getElementText(var, replicate));
@@ -310,32 +310,16 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, standardizationFrequency));
             assertEquals("", docHandler.getElementText(var, standardizationTemperatureStd));
             List<Element> elemList = docHandler.getElementList(var, standardGas);
-            assertEquals(4, elemList.size());
+            assertEquals(2, elemList.size());
 
             Element stdgas = elemList.get(0);
-            assertEquals("Calibration gas 1 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
+            assertEquals("ESRL in Boulder, CO.", docHandler.getElementText(stdgas, standardGasManufacturer));
             assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
             assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
 
             stdgas = elemList.get(1);
-            assertEquals("Calibration gas 2 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
-
-            stdgas = elemList.get(2);
-            assertEquals("Calibration gas 3 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
-
-            stdgas = elemList.get(3);
-            assertEquals("Calibration gas 4 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
+            assertEquals("Std 1: CA04957, 282.55 ppm; Std 2: CC105863, 380.22 ppm; " +
+                            "Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
                     docHandler.getElementText(stdgas, standardGasManufacturer));
             assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
             assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
@@ -376,9 +360,9 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, samplingInstrument));
             assertEquals("CO2 Sensor: Manufacturer: LI-COR; Model: LI-6262; Calibration: The analyzer is " +
                             "calibrated every 3.25 hours with standards from ESRL in Boulder, CO that are directly " +
-                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; The instrument is located " +
-                            "in an air-conditioned laboratory.  99.9% Nitrogen gas and the high standard (Std 4) " +
-                            "are used to set the zero and span of the LI-COR analyzer.",
+                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; Number of non-zero gases: " +
+                            "4; The instrument is located in an air-conditioned laboratory.  99.9% Nitrogen gas and " +
+                            "the high standard (Std 4) are used to set the zero and span of the LI-COR analyzer.",
                     docHandler.getElementText(var, analyzingInstrument));
             assertEquals("", docHandler.getElementText(var, duration));
             assertEquals("", docHandler.getElementText(var, replicate));
@@ -442,9 +426,9 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, samplingInstrument));
             assertEquals("CO2 Sensor: Manufacturer: LI-COR; Model: LI-6262; Calibration: The analyzer is " +
                             "calibrated every 3.25 hours with standards from ESRL in Boulder, CO that are directly " +
-                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; The instrument is located " +
-                            "in an air-conditioned laboratory.  99.9% Nitrogen gas and the high standard (Std 4) " +
-                            "are used to set the zero and span of the LI-COR analyzer.",
+                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; Number of non-zero gases: " +
+                            "4; The instrument is located in an air-conditioned laboratory.  99.9% Nitrogen gas and " +
+                            "the high standard (Std 4) are used to set the zero and span of the LI-COR analyzer.",
                     docHandler.getElementText(var, analyzingInstrument));
             assertEquals("", docHandler.getElementText(var, duration));
             assertEquals("", docHandler.getElementText(var, replicate));
@@ -779,9 +763,9 @@ public class OcadsWriterTest {
                     docHandler.getElementText(var, samplingInstrument));
             assertEquals("CO2 Sensor: Manufacturer: LI-COR; Model: LI-6262; Calibration: The analyzer is " +
                             "calibrated every 3.25 hours with standards from ESRL in Boulder, CO that are directly " +
-                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; The instrument is located " +
-                            "in an air-conditioned laboratory.  99.9% Nitrogen gas and the high standard (Std 4) " +
-                            "are used to set the zero and span of the LI-COR analyzer.",
+                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; Number of non-zero gases: " +
+                            "4; The instrument is located in an air-conditioned laboratory.  99.9% Nitrogen gas and " +
+                            "the high standard (Std 4) are used to set the zero and span of the LI-COR analyzer.",
                     docHandler.getElementText(var, analyzingInstrument));
             assertEquals("", docHandler.getElementText(var, duration));
             assertEquals("", docHandler.getElementText(var, replicate));
@@ -819,32 +803,16 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, standardizationFrequency));
             assertEquals("", docHandler.getElementText(var, standardizationTemperatureStd));
             List<Element> elemList = docHandler.getElementList(var, standardGas);
-            assertEquals(4, elemList.size());
+            assertEquals(2, elemList.size());
 
             Element stdgas = elemList.get(0);
-            assertEquals("Calibration gas 1 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
+            assertEquals("ESRL in Boulder, CO.", docHandler.getElementText(stdgas, standardGasManufacturer));
             assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
             assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
 
             stdgas = elemList.get(1);
-            assertEquals("Calibration gas 2 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
-
-            stdgas = elemList.get(2);
-            assertEquals("Calibration gas 3 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
-                    docHandler.getElementText(stdgas, standardGasManufacturer));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
-            assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
-
-            stdgas = elemList.get(3);
-            assertEquals("Calibration gas 4 mentioned in: ESRL in Boulder, CO.\r  Std 1: CA04957, 282.55 ppm; " +
-                            "Std 2: CC105863, 380.22 ppm; Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
+            assertEquals("Std 1: CA04957, 282.55 ppm; Std 2: CC105863, 380.22 ppm; " +
+                            "Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
                     docHandler.getElementText(stdgas, standardGasManufacturer));
             assertEquals("", docHandler.getElementText(stdgas, standardGasConcentration));
             assertEquals("", docHandler.getElementText(stdgas, standardGasUncertainty));
@@ -886,9 +854,9 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, samplingInstrument));
             assertEquals("CO2 Sensor: Manufacturer: LI-COR; Model: LI-6262; Calibration: The analyzer is " +
                             "calibrated every 3.25 hours with standards from ESRL in Boulder, CO that are directly " +
-                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; The instrument is located " +
-                            "in an air-conditioned laboratory.  99.9% Nitrogen gas and the high standard (Std 4) " +
-                            "are used to set the zero and span of the LI-COR analyzer.",
+                            "traceable to the WMO scale.  The zero gas is 99.9% nitrogen.; Number of non-zero gases: " +
+                            "4; The instrument is located in an air-conditioned laboratory.  99.9% Nitrogen gas and " +
+                            "the high standard (Std 4) are used to set the zero and span of the LI-COR analyzer.",
                     docHandler.getElementText(var, analyzingInstrument));
             assertEquals("", docHandler.getElementText(var, duration));
             assertEquals("", docHandler.getElementText(var, replicate));

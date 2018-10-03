@@ -39,6 +39,7 @@ public class CdiacToOcadsConverter {
             System.err.println("XCO2_ATM_ACTUAL, XCO2_ATM_INTERP, SEA_SURFACE_TEMPERATURE, EQUILIBRATOR_TEMPERATURE,");
             System.err.println("SEA_LEVEL_PRESSURE, EQUILIBRATOR_PRESSURE, SALINITY, WOCE_CO2_WATER, WOCE_CO2_ATM,");
             System.err.println("or OTHER");
+            System.err.println();
             System.exit(1);
         }
 

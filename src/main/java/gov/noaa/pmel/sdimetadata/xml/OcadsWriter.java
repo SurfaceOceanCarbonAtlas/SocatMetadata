@@ -743,8 +743,10 @@ public class OcadsWriter extends DocumentHandler {
             setElementText(ancestor, GAS_SENSOR_UNCERTAINTY_ELEMENT_NAME, var.getAccuracy().asOneString());
             setElementText(ancestor, STANDARDIZATION_DESCRIPTION_ELEMENT_NAME, inst.getCalibration());
             GasSensor sensor = (GasSensor) inst;
-            setElementText(ancestor, STANDARDIZATION_FREQUENCY_ELEMENT_NAME, sensor.getCalibrationFrequency());
+            StringBuilder strBldr = new StringBuilder();
+            int gasNum = 0;
             for (CalibrationGas gas : sensor.getCalibrationGases()) {
+                gasNum++;
                 Element stdGasElem = addListElement(ancestor, STANDARD_GAS_ELEMENT_NAME);
                 String info = gas.getSupplier();
                 if ( !info.isEmpty() )
@@ -757,7 +759,17 @@ public class OcadsWriter extends DocumentHandler {
                 numStr = gas.getAccuracy();
                 if ( numStr.isValid() )
                     setElementText(stdGasElem, STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME, numStr.asOneString());
+                info = gas.getFrequency();
+                if ( !info.isEmpty() ) {
+                    if ( strBldr.length() > 0 )
+                        strBldr.append(", ");
+                    strBldr.append("calibration gas ");
+                    strBldr.append(gasNum);
+                    strBldr.append(": ");
+                    strBldr.append(info);
+                }
             }
+            setElementText(ancestor, STANDARDIZATION_FREQUENCY_ELEMENT_NAME, strBldr.toString());
         }
 
         return usedInstNames;

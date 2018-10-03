@@ -838,32 +838,18 @@ public class CdiacReader extends DocumentHandler {
         strVal = getElementText(null, MEASURED_CO2_PARAMS_ELEMENT_NAME);
         if ( !strVal.isEmpty() )
             addnInfo.add(0, "Measured CO2 Parameters: " + strVal);
+        String numNonZeroGasses = getElementText(null, CO2_SENSOR_NUM_NONZERO_GASSES_ELEMENT_NAME);
+        if ( !numNonZeroGasses.isEmpty() )
+            addnInfo.add(0, "Number of non-zero gases: " + numNonZeroGasses);
         co2Sensor.setAddnInfo(addnInfo);
         // All the calibration gas information is stuck together in the following ...
         String calGasInfo = getElementText(null, CO2_CALIBRATION_MANUFACTURER_ELEMENT_NAME);
         ArrayList<String> calGasInfoList = getListOfLines(calGasInfo);
-        // ... except for the number of non-zero calibration gasses
-        String numNonZeroGasses = getElementText(null, CO2_SENSOR_NUM_NONZERO_GASSES_ELEMENT_NAME);
-        int numNonZero = numNonZeroGasses.isEmpty() ? 0 : Integer.parseInt(numNonZeroGasses);
-        if ( (numNonZero > 0) && !calGasInfo.isEmpty() ) {
-            ArrayList<CalibrationGas> gasList = new ArrayList<CalibrationGas>(numNonZero);
-            if ( (calGasInfoList.size() == 1) && (numNonZero == 1) ) {
-                gasList.add(new CalibrationGas(calGasInfo, "CO2", null, null, null));
-            }
-            else if ( calGasInfoList.size() == numNonZero ) {
-                for (int k = 0; k < numNonZero; k++) {
-                    gasList.add(new CalibrationGas(calGasInfoList.get(k), "CO2", null, null, null));
-                }
-            }
-            else {
-                for (int k = 1; k <= numNonZero; k++) {
-                    gasList.add(new CalibrationGas(
-                            "Calibration gas " + Integer.toString(k) + " mentioned in: " + calGasInfo,
-                            "CO2", null, null, null));
-                }
-            }
-            co2Sensor.setCalibrationGases(gasList);
+        ArrayList<CalibrationGas> gasList = new ArrayList<CalibrationGas>(calGasInfoList.size());
+        for (String gasInfo : calGasInfoList) {
+            gasList.add(new CalibrationGas(gasInfo, "CO2", null, null, null, null));
         }
+        co2Sensor.setCalibrationGases(gasList);
         instruments.add(co2Sensor);
 
         TemperatureSensor sstSensor = new TemperatureSensor();

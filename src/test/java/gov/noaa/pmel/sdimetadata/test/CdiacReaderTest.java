@@ -262,10 +262,11 @@ public class CdiacReaderTest {
             assertEquals(inst.toString(), "LI-COR", inst.getManufacturer());
             assertEquals(inst.toString(), "LI-6262", inst.getModel());
             strList = inst.getAddnInfo();
-            assertEquals(inst.toString(), 1, strList.size());
+            assertEquals(inst.toString(), 2, strList.size());
+            assertEquals(inst.toString(), "Number of non-zero gases: 4", strList.get(0));
             assertEquals(inst.toString(), "The instrument is located in an air-conditioned laboratory.  " +
                     "99.9% Nitrogen gas and the high standard (Std 4) are used to set the zero and span " +
-                    "of the LI-COR analyzer.", strList.get(0));
+                    "of the LI-COR analyzer.", strList.get(1));
 
             assertTrue(inst instanceof Analyzer);
             Analyzer sensor = (Analyzer) inst;
@@ -275,22 +276,26 @@ public class CdiacReaderTest {
 
             assertTrue(sensor instanceof GasSensor);
             GasSensor gasSensor = (GasSensor) sensor;
-            assertEquals(gasSensor.toString(), "", gasSensor.getCalibrationFrequency());
             ArrayList<CalibrationGas> gasList = gasSensor.getCalibrationGases();
-            assertEquals(gasSensor.toString(), 4, gasList.size());
-            for (int k = 0; k < 4; k++) {
-                CalibrationGas gas = gasList.get(k);
-                assertEquals(gas.toString(), "Calibration gas " + Integer.toString(k + 1) + " mentioned in: " +
-                        "ESRL in Boulder, CO.\r  " +
-                        "Std 1: CA04957, 282.55 ppm; Std 2: CC105863, 380.22 ppm; " +
-                        "Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm", gas.getId());
-                assertEquals(gas.toString(), "CO2", gas.getType());
-                assertEquals(gas.toString(), "", gas.getSupplier());
-                assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
-                        gas.getConcentration());
-                assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
-                        gas.getAccuracy());
-            }
+            assertEquals(gasSensor.toString(), 2, gasList.size());
+            CalibrationGas gas = gasList.get(0);
+            assertEquals(gas.toString(), "ESRL in Boulder, CO.", gas.getId());
+            assertEquals(gas.toString(), "CO2", gas.getType());
+            assertEquals(gas.toString(), "", gas.getSupplier());
+            assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
+                    gas.getConcentration());
+            assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
+                    gas.getAccuracy());
+            gas = gasList.get(1);
+            assertEquals(gas.toString(), "Std 1: CA04957, 282.55 ppm; Std 2: CC105863, 380.22 ppm; " +
+                            "Std 3: CB09696, 453.04 ppm; Std 4: CB09032, 539.38 ppm",
+                    gas.getId());
+            assertEquals(gas.toString(), "CO2", gas.getType());
+            assertEquals(gas.toString(), "", gas.getSupplier());
+            assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
+                    gas.getConcentration());
+            assertEquals(gas.toString(), new NumericString(null, CalibrationGas.GAS_CONCENTRATION_UNIT),
+                    gas.getAccuracy());
         }
 
         {
@@ -403,6 +408,7 @@ public class CdiacReaderTest {
         }
 
         ArrayList<Variable> variables = mdata.getVariables();
+
         assertEquals(variables.toString(), 13, variables.size());
 
         {

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="sdimetadata:jar">
-    <output-path>$PROJECT_DIR$/target/artifacts/sdimetadata</output-path>
+    <output-path>$PROJECT_DIR$/target/artifacts/</output-path>
     <root id="archive" name="sdimetadata.jar">
       <element id="module-output" name="SDIMetadata" />
     </root>

@@ -28,34 +28,15 @@ public class GasSensorTest {
     private static final String MODEL = "840";
     private static final String CALIBRATION = "Calibrated using four non-zero gases, " +
             "followed by four atmospheric CO2 measurements, then 32 aqueous CO2 measurement";
-    private static final String CALIBRATION_FREQUENCY = "Every ten hours";
     private static final ArrayList<CalibrationGas> CALIBRATION_GASES = new ArrayList<CalibrationGas>(Arrays.asList(
-            new CalibrationGas("SM-250", "CO2", "Scott Marin", "248.73", "0.01"),
-            new CalibrationGas("SM-500", "CO2", "Scott Marin", "567.40", "0.01"),
-            new CalibrationGas("SM-1000", "CO2", "Scott Marin", "1036.95", "0.01"),
-            new CalibrationGas("SM-1500", "CO2", "Scott Marin", "1533.7", "0.1")
+            new CalibrationGas("SM-250", "CO2", "Scott Marin", "248.73", "0.01", "every 3.5 h"),
+            new CalibrationGas("SM-500", "CO2", "Scott Marin", "567.40", "0.01", "every 4.5 h"),
+            new CalibrationGas("SM-1000", "CO2", "Scott Marin", "1036.95", "0.01", "every 5.5 h"),
+            new CalibrationGas("SM-1500", "CO2", "Scott Marin", "1533.7", "0.1", "every 6.5 h")
     ));
     private static final ArrayList<String> ADDN_INFO = new ArrayList<String>(Arrays.asList(
             "Some comment just to have one."
     ));
-
-    @Test
-    public void testGetSetCalibrationFrequency() {
-        GasSensor sensor = new GasSensor();
-        assertEquals(EMPTY_STR, sensor.getCalibrationFrequency());
-        sensor.setCalibrationFrequency(CALIBRATION_FREQUENCY);
-        assertEquals(CALIBRATION_FREQUENCY, sensor.getCalibrationFrequency());
-        assertEquals(EMPTY_STRLIST, sensor.getAddnInfo());
-        assertEquals(EMPTY_STR, sensor.getCalibration());
-        assertEquals(EMPTY_STR, sensor.getModel());
-        assertEquals(EMPTY_STR, sensor.getManufacturer());
-        assertEquals(EMPTY_STR, sensor.getId());
-        assertEquals(EMPTY_STR, sensor.getName());
-        sensor.setCalibrationFrequency(null);
-        assertEquals(EMPTY_STR, sensor.getCalibrationFrequency());
-        sensor.setCalibrationFrequency("\t");
-        assertEquals(EMPTY_STR, sensor.getCalibrationFrequency());
-    }
 
     @Test
     public void testGetSetCalibrationGasses() {
@@ -69,7 +50,6 @@ public class GasSensorTest {
             assertNotSame(CALIBRATION_GASES.get(k), gasList.get(k));
         }
         assertNotSame(gasList, sensor.getCalibrationGases());
-        assertEquals(EMPTY_STR, sensor.getCalibrationFrequency());
         assertEquals(EMPTY_STRLIST, sensor.getAddnInfo());
         assertEquals(EMPTY_STR, sensor.getCalibration());
         assertEquals(EMPTY_STR, sensor.getModel());
@@ -101,7 +81,6 @@ public class GasSensorTest {
         sensor.setModel(MODEL);
         sensor.setCalibration(CALIBRATION);
         sensor.setAddnInfo(ADDN_INFO);
-        sensor.setCalibrationFrequency(CALIBRATION_FREQUENCY);
         sensor.setCalibrationGases(CALIBRATION_GASES);
         assertNotEquals(sensor, dup);
 
@@ -179,15 +158,6 @@ public class GasSensorTest {
         assertEquals(first.hashCode(), second.hashCode());
         assertTrue(first.equals(second));
         other.setAddnInfo(ADDN_INFO);
-        assertFalse(first.equals(other));
-        assertTrue(other.equals(second));
-
-        first.setCalibrationFrequency(CALIBRATION_FREQUENCY);
-        assertNotEquals(first.hashCode(), second.hashCode());
-        assertFalse(first.equals(second));
-        second.setCalibrationFrequency(CALIBRATION_FREQUENCY);
-        assertEquals(first.hashCode(), second.hashCode());
-        assertTrue(first.equals(second));
         assertFalse(first.equals(other));
         assertTrue(other.equals(second));
 

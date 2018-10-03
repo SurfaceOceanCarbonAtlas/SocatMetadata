@@ -22,6 +22,7 @@ public class CalibrationGasTest {
     private static final String GAS_ID = "LL835339";
     private static final String GAS_TYPE = "CO2";
     private static final String SUPPLIER = "NOAA/ESRL, Global Monitoring Division";
+    private static final String FREQUENCY = "~ every 19 h";
     private static final NumericString CONCENTRATION =
             new NumericString("245.43", CalibrationGas.GAS_CONCENTRATION_UNIT);
     private static final NumericString ACCURACY =
@@ -69,11 +70,27 @@ public class CalibrationGasTest {
     }
 
     @Test
+    public void testGetSetFrequency() {
+        CalibrationGas gas = new CalibrationGas();
+        assertEquals(EMPTY_STR, gas.getFrequency());
+        gas.setFrequency(FREQUENCY);
+        assertEquals(FREQUENCY, gas.getFrequency());
+        assertEquals(EMPTY_STR, gas.getSupplier());
+        assertEquals(EMPTY_STR, gas.getType());
+        assertEquals(EMPTY_STR, gas.getId());
+        gas.setFrequency(null);
+        assertEquals(EMPTY_STR, gas.getFrequency());
+        gas.setFrequency("\t");
+        assertEquals(EMPTY_STR, gas.getFrequency());
+    }
+
+    @Test
     public void testGetSetConcentration() {
         CalibrationGas gas = new CalibrationGas();
         assertEquals(EMPTY_CONC, gas.getConcentration());
         gas.setConcentration(CONCENTRATION);
         assertEquals(CONCENTRATION, gas.getConcentration());
+        assertEquals(EMPTY_STR, gas.getFrequency());
         assertEquals(EMPTY_STR, gas.getSupplier());
         assertEquals(EMPTY_STR, gas.getType());
         assertEquals(EMPTY_STR, gas.getId());
@@ -94,6 +111,7 @@ public class CalibrationGasTest {
         gas.setAccuracy(ACCURACY);
         assertEquals(ACCURACY, gas.getAccuracy());
         assertEquals(EMPTY_CONC, gas.getConcentration());
+        assertEquals(EMPTY_STR, gas.getFrequency());
         assertEquals(EMPTY_STR, gas.getSupplier());
         assertEquals(EMPTY_STR, gas.getType());
         assertEquals(EMPTY_STR, gas.getId());
@@ -115,14 +133,16 @@ public class CalibrationGasTest {
 
     @Test
     public void testCalibrationGas() {
-        CalibrationGas gas = new CalibrationGas(null, null, null, null, null);
+        CalibrationGas gas = new CalibrationGas(null, null, null, null, null, null);
         assertEquals(new CalibrationGas(), gas);
-        gas = new CalibrationGas(GAS_ID, GAS_TYPE, SUPPLIER, CONCENTRATION.getValueString(), ACCURACY.getValueString());
+        gas = new CalibrationGas(GAS_ID, GAS_TYPE, SUPPLIER, CONCENTRATION.getValueString(), ACCURACY.getValueString(),
+                FREQUENCY);
         assertEquals(GAS_ID, gas.getId());
         assertEquals(GAS_TYPE, gas.getType());
         assertEquals(SUPPLIER, gas.getSupplier());
         assertEquals(CONCENTRATION, gas.getConcentration());
         assertEquals(ACCURACY, gas.getAccuracy());
+        assertEquals(FREQUENCY, gas.getFrequency());
     }
 
     @Test
@@ -134,6 +154,8 @@ public class CalibrationGasTest {
         } catch ( IllegalStateException ex ) {
             // Expected result
         }
+        gas.setConcentration(new NumericString("0.0", null));
+        assertFalse(gas.isNonZero());
         gas.setConcentration(CONCENTRATION);
         try {
             gas.isNonZero();
@@ -151,11 +173,10 @@ public class CalibrationGasTest {
     public void testInvalidFieldNames() {
         CalibrationGas gas = new CalibrationGas();
         assertEquals(new HashSet<String>(
-                Arrays.asList("id", "type", "supplier", "concentration", "accuracy")), gas.invalidFieldNames());
-        gas = new CalibrationGas(GAS_ID, GAS_TYPE, SUPPLIER, null, null);
-        assertEquals(new HashSet<String>(Arrays.asList("concentration", "accuracy")), gas.invalidFieldNames());
+                Arrays.asList("id", "type", "supplier", "concentration")), gas.invalidFieldNames());
+        gas = new CalibrationGas(GAS_ID, GAS_TYPE, SUPPLIER, null, null, null);
+        assertEquals(new HashSet<String>(Arrays.asList("concentration")), gas.invalidFieldNames());
         gas.setConcentration(CONCENTRATION);
-        gas.setAccuracy(ACCURACY);
         assertEquals(new HashSet<String>(), gas.invalidFieldNames());
     }
 
@@ -169,6 +190,7 @@ public class CalibrationGasTest {
         gas.setId(GAS_ID);
         gas.setType(GAS_TYPE);
         gas.setSupplier(SUPPLIER);
+        gas.setFrequency(FREQUENCY);
         gas.setConcentration(CONCENTRATION);
         gas.setAccuracy(ACCURACY);
         assertNotEquals(gas, dup);
@@ -206,6 +228,13 @@ public class CalibrationGasTest {
         assertNotEquals(first.hashCode(), second.hashCode());
         assertFalse(first.equals(second));
         second.setSupplier(SUPPLIER);
+        assertEquals(first.hashCode(), second.hashCode());
+        assertTrue(first.equals(second));
+
+        first.setFrequency(FREQUENCY);
+        assertNotEquals(first.hashCode(), second.hashCode());
+        assertFalse(first.equals(second));
+        second.setFrequency(FREQUENCY);
         assertEquals(first.hashCode(), second.hashCode());
         assertTrue(first.equals(second));
 

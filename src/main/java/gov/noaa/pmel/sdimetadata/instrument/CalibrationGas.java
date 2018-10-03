@@ -15,6 +15,7 @@ public class CalibrationGas implements Cloneable {
     protected String id;
     protected String type;
     protected String supplier;
+    protected String frequency;
     protected NumericString concentration;
     protected NumericString accuracy;
 
@@ -25,6 +26,7 @@ public class CalibrationGas implements Cloneable {
         id = "";
         type = "";
         supplier = "";
+        frequency = "";
         concentration = new NumericString(null, GAS_CONCENTRATION_UNIT);
         accuracy = new NumericString(null, GAS_CONCENTRATION_UNIT);
     }
@@ -42,17 +44,20 @@ public class CalibrationGas implements Cloneable {
      * @param accStr
      *         assign as the accuracy, in {@link #GAS_CONCENTRATION_UNIT}, of the concentration of the gas
      *         being calibrated;  if null or blank, an empty string is assigned
+     * @param frequency
+     *         frequency of cailbration with this gas
      *
      * @throws IllegalArgumentException
      *         if the concentration given, if not null and not blank, does not represent a non-negative finite number,
      *         or if the accuracy given, if not null and not blank, does not represent a positive finite number
      */
-    public CalibrationGas(String id, String type, String supplier, String concStr, String accStr)
+    public CalibrationGas(String id, String type, String supplier, String concStr, String accStr, String frequency)
             throws IllegalArgumentException {
         this();
         setId(id);
         setType(type);
         setSupplier(supplier);
+        setFrequency(frequency);
         String strVal = (concStr != null) ? concStr.trim() : "";
         if ( !strVal.isEmpty() )
             setConcentration(new NumericString(strVal, GAS_CONCENTRATION_UNIT));
@@ -74,8 +79,6 @@ public class CalibrationGas implements Cloneable {
             invalid.add("supplier");
         if ( !concentration.isValid() )
             invalid.add("concentration");
-        if ( !accuracy.isValid() )
-            invalid.add("accuracy");
         return invalid;
     }
 
@@ -122,6 +125,21 @@ public class CalibrationGas implements Cloneable {
      */
     public void setSupplier(String supplier) {
         this.supplier = (supplier != null) ? supplier.trim() : "";
+    }
+
+    /**
+     * @return frequency of calibration using this gas; never null but may be empty
+     */
+    public String getFrequency() {
+        return frequency;
+    }
+
+    /**
+     * @param frequency
+     *         assign as the frequency of calibration using this gas; if null, an empty string is assigned
+     */
+    public void setFrequency(String frequency) {
+        this.frequency = (frequency != null) ? frequency.trim() : "";
     }
 
     /**
@@ -188,6 +206,8 @@ public class CalibrationGas implements Cloneable {
     public boolean isNonZero() throws IllegalStateException {
         if ( !concentration.isValid() )
             throw new IllegalStateException("gas concentration is not given");
+        if ( concentration.getNumericValue() == 0.0 )
+            return false;
         if ( !accuracy.isValid() )
             throw new IllegalStateException("gas concentration accuracy is not given");
         return (concentration.getNumericValue() > accuracy.getNumericValue());
@@ -204,6 +224,7 @@ public class CalibrationGas implements Cloneable {
         dup.id = id;
         dup.type = type;
         dup.supplier = supplier;
+        dup.frequency = frequency;
         dup.concentration = concentration.clone();
         dup.accuracy = accuracy.clone();
         return dup;
@@ -226,6 +247,8 @@ public class CalibrationGas implements Cloneable {
             return false;
         if ( !supplier.equals(that.supplier) )
             return false;
+        if ( !frequency.equals(that.frequency) )
+            return false;
         if ( !concentration.equals(that.concentration) )
             return false;
         if ( !accuracy.equals(that.accuracy) )
@@ -240,6 +263,7 @@ public class CalibrationGas implements Cloneable {
         int result = id.hashCode();
         result = result * prime + type.hashCode();
         result = result * prime + supplier.hashCode();
+        result = result * prime + frequency.hashCode();
         result = result * prime + concentration.hashCode();
         result = result * prime + accuracy.hashCode();
         return result;
@@ -251,6 +275,7 @@ public class CalibrationGas implements Cloneable {
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", supplier='" + supplier + '\'' +
+                ", frequency='" + frequency + '\'' +
                 ", concentration=" + concentration +
                 ", accuracy=" + accuracy +
                 '}';
