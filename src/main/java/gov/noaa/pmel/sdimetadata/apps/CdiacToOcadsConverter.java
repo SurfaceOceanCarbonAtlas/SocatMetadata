@@ -69,7 +69,12 @@ public class CdiacToOcadsConverter {
             xmlReader.close();
             metadata = cdiacReader.createSDIMetadata();
         } catch ( Exception ex ) {
-            System.err.println("Problems reading the CDIAC XML file: " + ex.getMessage());
+            System.err.println("Problems reading the CDIAC XML file '" + args[0] + "':");
+            String msg = ex.getMessage();
+            if ( (msg != null) && !msg.trim().isEmpty() )
+                System.err.println("\t" + msg);
+            else
+                ex.printStackTrace();
             System.exit(1);
         }
 
@@ -79,7 +84,12 @@ public class CdiacToOcadsConverter {
             ocadsWriter.writeSDIMetadata(metadata, xmlWriter);
             xmlWriter.close();
         } catch ( Exception ex ) {
-            System.err.println("Problems writing the OCADS XML file: " + ex.getMessage());
+            System.err.println("Problems writing the OCADS XML file '" + args[1] + "':");
+            String msg = ex.getMessage();
+            if ( (msg != null) && !msg.trim().isEmpty() )
+                System.err.println("\t" + msg);
+            else
+                ex.printStackTrace();
             System.exit(1);
         }
 
@@ -87,3 +97,4 @@ public class CdiacToOcadsConverter {
     }
 
 }
+

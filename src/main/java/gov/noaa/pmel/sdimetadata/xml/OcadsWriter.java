@@ -216,9 +216,17 @@ public class OcadsWriter extends DocumentHandler {
 
         Coverage coverage = mdata.getCoverage();
         Datestamp stamp = DocumentHandler.getDatestamp(coverage.getEarliestDataTime());
-        setElementText(null, DATA_START_DATE_ELEMENT_NAME, stamp.stampString());
+        try {
+            setElementText(null, DATA_START_DATE_ELEMENT_NAME, stamp.stampString());
+        } catch ( IllegalStateException ex ) {
+            // Invalid Datestamp - leave unassigned
+        }
         stamp = DocumentHandler.getDatestamp(coverage.getLatestDataTime());
-        setElementText(null, DATA_END_DATE_ELEMENT_NAME, stamp.stampString());
+        try {
+            setElementText(null, DATA_END_DATE_ELEMENT_NAME, stamp.stampString());
+        } catch ( IllegalStateException ex ) {
+            // Invalid Datestamp - leave unassigned
+        }
         setElementText(null, WESTERNMOST_LONGITUDE_ELEMENT_NAME, coverage.getWesternLongitude().getValueString());
         setElementText(null, EASTERNMOST_LONGITUDE_ELEMENT_NAME, coverage.getEasternLongitude().getValueString());
         setElementText(null, SOUTHERNMOST_LATITUDE_ELEMENT_NAME, coverage.getSouthernLatitude().getValueString());
@@ -821,10 +829,14 @@ public class OcadsWriter extends DocumentHandler {
                 strBldr.append("; ");
             strBldr.append(addn);
         }
-        // Add the instrument name at the start, with ": " if there is anything added above
-        if ( strBldr.length() > 0 )
+        if ( strBldr.length() > 0 ) {
             strBldr.insert(0, ": ");
-        strBldr.insert(0, inst.getName());
+            strBldr.insert(0, inst.getName());
+        }
+        else {
+            strBldr.append(inst.getName());
+            strBldr.append(": (no information)");
+        }
         return strBldr.toString();
     }
 

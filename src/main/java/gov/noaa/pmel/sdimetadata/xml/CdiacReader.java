@@ -464,11 +464,16 @@ public class CdiacReader extends DocumentHandler {
                 getNumericString(getElementText(null, NORTH_BOUND_ELEMENT_NAME), Coverage.LATITUDE_UNITS));
 
         // CDIAC only has date stamps - use earliest and latest time of those days; should be reset from data
-        coverage.setEarliestDataTime(
-                getDatestamp(getElementText(null, TEMP_START_DATE_ELEMENT_NAME)).getEarliestTime());
-        Date endDate = getDatestamp(getElementText(null, TEMP_END_DATE_ELEMENT_NAME)).getEarliestTime();
-        endDate = new Date(endDate.getTime() + 24L * 60L * 60L * 1000L - 1000L);
-        coverage.setLatestDataTime(endDate);
+        Datestamp timestamp = getDatestamp(getElementText(null, TEMP_START_DATE_ELEMENT_NAME));
+        if ( timestamp != null ) {
+            coverage.setEarliestDataTime(timestamp.getEarliestTime());
+        }
+        timestamp = getDatestamp(getElementText(null, TEMP_END_DATE_ELEMENT_NAME));
+        if ( timestamp != null ) {
+            Date endDate = timestamp.getEarliestTime();
+            endDate = new Date(endDate.getTime() + 24L * 60L * 60L * 1000L - 1000L);
+            coverage.setLatestDataTime(endDate);
+        }
 
         TreeSet<String> regions = new TreeSet<String>();
         for (Element regElem : getElementList(null, GEO_REGION_ELEMENT_NAME)) {
@@ -1015,6 +1020,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2atmpressuresstcorruatm", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP
                 .put("fco2forairinequilibriumwithseawateratseasurfacetemperatureatm", VarType.FCO2_WATER_SST);
+        DEFAULT_KEY_TO_TYPE_MAP.put("fco2inseawater", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2inseawateruatm", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2insitu", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2insituwet", VarType.FCO2_WATER_SST);
@@ -1036,6 +1042,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2swsstuatm", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2swsstwet", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2swsstwetuatm", VarType.FCO2_WATER_SST);
+        DEFAULT_KEY_TO_TYPE_MAP.put("fco2swsat", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2swuatm", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2swuatmuatm", VarType.FCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2uatm", VarType.FCO2_WATER_SST);
@@ -1147,6 +1154,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2headuatam", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2headuatm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2icosatm", VarType.PCO2_WATER_SST);
+        DEFAULT_KEY_TO_TYPE_MAP.put("pco2inseawaterwet", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2inseawaterwetppm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2insituatm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2insitutmatm", VarType.PCO2_WATER_SST);
@@ -1166,6 +1174,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2swsstwet", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2swsstwetuatm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2swuatm", VarType.PCO2_WATER_SST);
+        DEFAULT_KEY_TO_TYPE_MAP.put("pco2swwet", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2tailuatm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2uatm", VarType.PCO2_WATER_SST);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2uatminwater", VarType.PCO2_WATER_SST);
@@ -1223,6 +1232,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2equmomol", VarType.XCO2_WATER_EQU);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2equppm", VarType.XCO2_WATER_EQU);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2equumolmol", VarType.XCO2_WATER_EQU);
+        DEFAULT_KEY_TO_TYPE_MAP.put("xco2inseawaterdry", VarType.XCO2_WATER_EQU);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2inseawaterdryuatm", VarType.XCO2_WATER_EQU);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2oceequilumolmol1", VarType.XCO2_WATER_EQU);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2ppm", VarType.XCO2_WATER_EQU);
@@ -1382,6 +1392,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airactual", VarType.FCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airactualuatm", VarType.FCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airatm", VarType.FCO2_ATM_ACTUAL);
+        DEFAULT_KEY_TO_TYPE_MAP.put("fco2airsat", VarType.FCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airsatuatm", VarType.FCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airuatm", VarType.FCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("fco2airwet", VarType.FCO2_ATM_ACTUAL);
@@ -1442,6 +1453,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2atmwetactual", VarType.PCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2atmwetactualuatm", VarType.PCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2atmwetuatm", VarType.PCO2_ATM_ACTUAL);
+        DEFAULT_KEY_TO_TYPE_MAP.put("pco2inairwet", VarType.PCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2inairwetppm", VarType.PCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2uatmmeasuredintheair", VarType.PCO2_ATM_ACTUAL);
 
@@ -1476,6 +1488,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2airdryumolmol", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2airppm", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2airumolmol", VarType.XCO2_ATM_ACTUAL);
+        DEFAULT_KEY_TO_TYPE_MAP.put("xco2airwet", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2amicromolmol", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2appm", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2atm", VarType.XCO2_ATM_ACTUAL);
@@ -1497,6 +1510,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2aumolmol", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2dryairmolmol", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2dryairppm", VarType.XCO2_ATM_ACTUAL);
+        DEFAULT_KEY_TO_TYPE_MAP.put("xco2inairdry", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2inairdryuatm", VarType.XCO2_ATM_ACTUAL);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2indriedairactualumolmol", VarType.XCO2_ATM_ACTUAL);
 
@@ -1535,6 +1549,7 @@ public class CdiacReader extends DocumentHandler {
         // DEFAULT_KEY_TO_TYPE_MAP.put("xco2atmppmv", VarType.XCO2_ATM_INTERP);
         DEFAULT_KEY_TO_TYPE_MAP.put("xco2indryairppmv", VarType.XCO2_ATM_INTERP);
 
+        DEFAULT_KEY_TO_TYPE_MAP.put("intaketemperature", VarType.SEA_SURFACE_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("intaketemperaturecelsius", VarType.SEA_SURFACE_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("istempdegc", VarType.SEA_SURFACE_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("sami521mtemp", VarType.SEA_SURFACE_TEMPERATURE);
@@ -1608,6 +1623,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("equtemp", VarType.EQUILIBRATOR_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("equtempdegc", VarType.EQUILIBRATOR_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("equtempsw", VarType.EQUILIBRATOR_TEMPERATURE);
+        DEFAULT_KEY_TO_TYPE_MAP.put("licortemp", VarType.EQUILIBRATOR_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("pco2tmp", VarType.EQUILIBRATOR_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("tempeq", VarType.EQUILIBRATOR_TEMPERATURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("tempeqc", VarType.EQUILIBRATOR_TEMPERATURE);
@@ -1655,6 +1671,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("airpressurekpa", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("airpressurembar", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("airpressuremmhg", VarType.SEA_LEVEL_PRESSURE);
+        DEFAULT_KEY_TO_TYPE_MAP.put("atmosphericpressure", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("atmosphericpressurehpa", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("atmosphericpressurekpa", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("atmosphericpressuremb", VarType.SEA_LEVEL_PRESSURE);
@@ -1707,7 +1724,6 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("presatmssp", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("presatmssphpa", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("preskpa", VarType.SEA_LEVEL_PRESSURE);
-        DEFAULT_KEY_TO_TYPE_MAP.put("preslicorhpa", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("presmb", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("pressatm", VarType.SEA_LEVEL_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("pressatmhpa", VarType.SEA_LEVEL_PRESSURE);
@@ -1757,6 +1773,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("equpress", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("equpresssw", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("equpressure", VarType.EQUILIBRATOR_PRESSURE);
+        DEFAULT_KEY_TO_TYPE_MAP.put("licoratmpressure", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("licoratmpressurehpa", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("peq", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("peqhpa", VarType.EQUILIBRATOR_PRESSURE);
@@ -1792,6 +1809,7 @@ public class CdiacReader extends DocumentHandler {
         DEFAULT_KEY_TO_TYPE_MAP.put("presequmbar", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("preseqummhg", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("preslabhpa", VarType.EQUILIBRATOR_PRESSURE);
+        DEFAULT_KEY_TO_TYPE_MAP.put("preslicorhpa", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("presseq", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("pressequhpa", VarType.EQUILIBRATOR_PRESSURE);
         DEFAULT_KEY_TO_TYPE_MAP.put("pressequilhpa", VarType.EQUILIBRATOR_PRESSURE);
