@@ -15,7 +15,7 @@ public class CalibrationGas implements Cloneable {
     protected String id;
     protected String type;
     protected String supplier;
-    protected String frequency;
+    protected String useFrequency;
     protected NumericString concentration;
     protected NumericString accuracy;
 
@@ -26,7 +26,7 @@ public class CalibrationGas implements Cloneable {
         id = "";
         type = "";
         supplier = "";
-        frequency = "";
+        useFrequency = "";
         concentration = new NumericString(null, GAS_CONCENTRATION_UNIT);
         accuracy = new NumericString(null, GAS_CONCENTRATION_UNIT);
     }
@@ -44,20 +44,20 @@ public class CalibrationGas implements Cloneable {
      * @param accStr
      *         assign as the accuracy, in {@link #GAS_CONCENTRATION_UNIT}, of the concentration of the gas
      *         being calibrated;  if null or blank, an empty string is assigned
-     * @param frequency
-     *         frequency of cailbration with this gas
+     * @param useFrequency
+     *         frequency of calibration with this gas
      *
      * @throws IllegalArgumentException
      *         if the concentration given, if not null and not blank, does not represent a non-negative finite number,
      *         or if the accuracy given, if not null and not blank, does not represent a positive finite number
      */
-    public CalibrationGas(String id, String type, String supplier, String concStr, String accStr, String frequency)
+    public CalibrationGas(String id, String type, String supplier, String concStr, String accStr, String useFrequency)
             throws IllegalArgumentException {
         this();
         setId(id);
         setType(type);
         setSupplier(supplier);
-        setFrequency(frequency);
+        setUseFrequency(useFrequency);
         String strVal = (concStr != null) ? concStr.trim() : "";
         if ( !strVal.isEmpty() )
             setConcentration(new NumericString(strVal, GAS_CONCENTRATION_UNIT));
@@ -130,16 +130,16 @@ public class CalibrationGas implements Cloneable {
     /**
      * @return frequency of calibration using this gas; never null but may be empty
      */
-    public String getFrequency() {
-        return frequency;
+    public String getUseFrequency() {
+        return useFrequency;
     }
 
     /**
-     * @param frequency
+     * @param useFrequency
      *         assign as the frequency of calibration using this gas; if null, an empty string is assigned
      */
-    public void setFrequency(String frequency) {
-        this.frequency = (frequency != null) ? frequency.trim() : "";
+    public void setUseFrequency(String useFrequency) {
+        this.useFrequency = (useFrequency != null) ? useFrequency.trim() : "";
     }
 
     /**
@@ -224,7 +224,7 @@ public class CalibrationGas implements Cloneable {
         dup.id = id;
         dup.type = type;
         dup.supplier = supplier;
-        dup.frequency = frequency;
+        dup.useFrequency = useFrequency;
         dup.concentration = concentration.clone();
         dup.accuracy = accuracy.clone();
         return dup;
@@ -247,7 +247,7 @@ public class CalibrationGas implements Cloneable {
             return false;
         if ( !supplier.equals(that.supplier) )
             return false;
-        if ( !frequency.equals(that.frequency) )
+        if ( !useFrequency.equals(that.useFrequency) )
             return false;
         if ( !concentration.equals(that.concentration) )
             return false;
@@ -263,7 +263,7 @@ public class CalibrationGas implements Cloneable {
         int result = id.hashCode();
         result = result * prime + type.hashCode();
         result = result * prime + supplier.hashCode();
-        result = result * prime + frequency.hashCode();
+        result = result * prime + useFrequency.hashCode();
         result = result * prime + concentration.hashCode();
         result = result * prime + accuracy.hashCode();
         return result;
@@ -275,7 +275,7 @@ public class CalibrationGas implements Cloneable {
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", supplier='" + supplier + '\'' +
-                ", frequency='" + frequency + '\'' +
+                ", useFrequency='" + useFrequency + '\'' +
                 ", concentration=" + concentration +
                 ", accuracy=" + accuracy +
                 '}';

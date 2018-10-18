@@ -72,16 +72,16 @@ public class CalibrationGasTest {
     @Test
     public void testGetSetFrequency() {
         CalibrationGas gas = new CalibrationGas();
-        assertEquals(EMPTY_STR, gas.getFrequency());
-        gas.setFrequency(FREQUENCY);
-        assertEquals(FREQUENCY, gas.getFrequency());
+        assertEquals(EMPTY_STR, gas.getUseFrequency());
+        gas.setUseFrequency(FREQUENCY);
+        assertEquals(FREQUENCY, gas.getUseFrequency());
         assertEquals(EMPTY_STR, gas.getSupplier());
         assertEquals(EMPTY_STR, gas.getType());
         assertEquals(EMPTY_STR, gas.getId());
-        gas.setFrequency(null);
-        assertEquals(EMPTY_STR, gas.getFrequency());
-        gas.setFrequency("\t");
-        assertEquals(EMPTY_STR, gas.getFrequency());
+        gas.setUseFrequency(null);
+        assertEquals(EMPTY_STR, gas.getUseFrequency());
+        gas.setUseFrequency("\t");
+        assertEquals(EMPTY_STR, gas.getUseFrequency());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class CalibrationGasTest {
         assertEquals(EMPTY_CONC, gas.getConcentration());
         gas.setConcentration(CONCENTRATION);
         assertEquals(CONCENTRATION, gas.getConcentration());
-        assertEquals(EMPTY_STR, gas.getFrequency());
+        assertEquals(EMPTY_STR, gas.getUseFrequency());
         assertEquals(EMPTY_STR, gas.getSupplier());
         assertEquals(EMPTY_STR, gas.getType());
         assertEquals(EMPTY_STR, gas.getId());
@@ -111,7 +111,7 @@ public class CalibrationGasTest {
         gas.setAccuracy(ACCURACY);
         assertEquals(ACCURACY, gas.getAccuracy());
         assertEquals(EMPTY_CONC, gas.getConcentration());
-        assertEquals(EMPTY_STR, gas.getFrequency());
+        assertEquals(EMPTY_STR, gas.getUseFrequency());
         assertEquals(EMPTY_STR, gas.getSupplier());
         assertEquals(EMPTY_STR, gas.getType());
         assertEquals(EMPTY_STR, gas.getId());
@@ -142,7 +142,7 @@ public class CalibrationGasTest {
         assertEquals(SUPPLIER, gas.getSupplier());
         assertEquals(CONCENTRATION, gas.getConcentration());
         assertEquals(ACCURACY, gas.getAccuracy());
-        assertEquals(FREQUENCY, gas.getFrequency());
+        assertEquals(FREQUENCY, gas.getUseFrequency());
     }
 
     @Test
@@ -190,7 +190,7 @@ public class CalibrationGasTest {
         gas.setId(GAS_ID);
         gas.setType(GAS_TYPE);
         gas.setSupplier(SUPPLIER);
-        gas.setFrequency(FREQUENCY);
+        gas.setUseFrequency(FREQUENCY);
         gas.setConcentration(CONCENTRATION);
         gas.setAccuracy(ACCURACY);
         assertNotEquals(gas, dup);
@@ -231,10 +231,10 @@ public class CalibrationGasTest {
         assertEquals(first.hashCode(), second.hashCode());
         assertTrue(first.equals(second));
 
-        first.setFrequency(FREQUENCY);
+        first.setUseFrequency(FREQUENCY);
         assertNotEquals(first.hashCode(), second.hashCode());
         assertFalse(first.equals(second));
-        second.setFrequency(FREQUENCY);
+        second.setUseFrequency(FREQUENCY);
         assertEquals(first.hashCode(), second.hashCode());
         assertTrue(first.equals(second));
 

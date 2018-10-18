@@ -767,7 +767,7 @@ public class OcadsWriter extends DocumentHandler {
                 numStr = gas.getAccuracy();
                 if ( numStr.isValid() )
                     setElementText(stdGasElem, STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME, numStr.asOneString());
-                info = gas.getFrequency();
+                info = gas.getUseFrequency();
                 if ( !info.isEmpty() ) {
                     if ( strBldr.length() > 0 )
                         strBldr.append(", ");
