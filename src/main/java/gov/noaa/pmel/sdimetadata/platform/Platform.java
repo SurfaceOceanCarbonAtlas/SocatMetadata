@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.platform;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Basic information about the platform (ship, mooring) used by the dataset.
  */
-public class Platform implements Cloneable {
+public class Platform implements Cloneable, Serializable {
 
     protected String platformId;
     protected String platformName;
@@ -178,4 +179,3 @@ public class Platform implements Cloneable {
     }
 
 }
-

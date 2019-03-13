@@ -41,34 +41,34 @@ public class EquilibratorTest {
     @Test
     public void testInvalidFieldNames() {
         Equilibrator sampler = new Equilibrator();
-        assertEquals(new HashSet(Arrays.asList(
+        assertEquals(new HashSet<String>(Arrays.asList(
                 "equilibratorType", "chamberWaterVol", "chamberGasVol",
                 "waterFlowRate", "gasFlowRate", "venting"
         )), sampler.invalidFieldNames());
 
         sampler.setEquilibratorType(EQUILIBRATOR_TYPE);
-        assertEquals(new HashSet(Arrays.asList(
+        assertEquals(new HashSet<String>(Arrays.asList(
                 "chamberWaterVol", "chamberGasVol", "waterFlowRate", "gasFlowRate", "venting"
         )), sampler.invalidFieldNames());
 
         sampler.setChamberWaterVol(CHAMBER_WATER_VOLUME);
-        assertEquals(new HashSet(Arrays.asList(
+        assertEquals(new HashSet<String>(Arrays.asList(
                 "chamberGasVol", "waterFlowRate", "gasFlowRate", "venting"
         )), sampler.invalidFieldNames());
 
         sampler.setChamberGasVol(CHAMBER_GAS_VOLUME);
-        assertEquals(new HashSet(Arrays.asList(
+        assertEquals(new HashSet<String>(Arrays.asList(
                 "waterFlowRate", "gasFlowRate", "venting"
         )), sampler.invalidFieldNames());
 
         sampler.setWaterFlowRate(WATER_FLOW_RATE);
-        assertEquals(new HashSet(Arrays.asList("gasFlowRate", "venting")), sampler.invalidFieldNames());
+        assertEquals(new HashSet<String>(Arrays.asList("gasFlowRate", "venting")), sampler.invalidFieldNames());
 
         sampler.setGasFlowRate(GAS_FLOW_RATE);
-        assertEquals(new HashSet(Arrays.asList("venting")), sampler.invalidFieldNames());
+        assertEquals(new HashSet<String>(Arrays.asList("venting")), sampler.invalidFieldNames());
 
         sampler.setVenting(VENTING);
-        assertEquals(new HashSet(), sampler.invalidFieldNames());
+        assertEquals(new HashSet<String>(), sampler.invalidFieldNames());
     }
 
     @Test
@@ -333,4 +333,3 @@ public class EquilibratorTest {
     }
 
 }
-

@@ -6,11 +6,12 @@ import gov.noaa.pmel.sdimetadata.person.Submitter;
 import gov.noaa.pmel.sdimetadata.platform.Platform;
 import gov.noaa.pmel.sdimetadata.variable.Variable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-public class SDIMetadata implements Cloneable {
+public class SDIMetadata implements Cloneable, Serializable {
 
     protected Submitter submitter;
     protected ArrayList<Investigator> investigators;
@@ -255,4 +256,3 @@ public class SDIMetadata implements Cloneable {
     }
 
 }
-

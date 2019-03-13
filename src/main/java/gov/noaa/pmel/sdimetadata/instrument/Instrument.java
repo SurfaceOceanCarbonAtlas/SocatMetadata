@@ -1,12 +1,13 @@
 package gov.noaa.pmel.sdimetadata.instrument;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
  * Base class for instruments (eg, sensors, equilibrators)
  */
-public class Instrument implements Cloneable {
+public class Instrument implements Cloneable, Serializable {
 
     protected String name;
     protected String id;
@@ -192,4 +193,3 @@ public class Instrument implements Cloneable {
     }
 
 }
-

@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.instrument;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Base class for a sampling instrument.
  */
-public class Sampler extends Instrument implements Cloneable {
+public class Sampler extends Instrument implements Cloneable, Serializable {
 
     HashSet<String> instrumentNames;
 

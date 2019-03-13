@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdimetadata.util;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.TimeZone;
 /**
  * Represents and works with a date (without time)
  */
-public final class Datestamp implements Cloneable {
+public final class Datestamp implements Cloneable, Serializable {
 
     /**
      * Integer returned for invalid year, month, or day

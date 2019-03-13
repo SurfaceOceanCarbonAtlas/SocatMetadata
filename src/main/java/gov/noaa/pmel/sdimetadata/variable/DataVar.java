@@ -2,12 +2,13 @@ package gov.noaa.pmel.sdimetadata.variable;
 
 import gov.noaa.pmel.sdimetadata.person.Person;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Information about a generic data variable in a dataset.
  */
-public class DataVar extends Variable implements Cloneable {
+public class DataVar extends Variable implements Cloneable, Serializable {
 
     protected String observeType;
     protected MethodType measureMethod;
@@ -432,4 +433,3 @@ public class DataVar extends Variable implements Cloneable {
                 '}';
     }
 }
-

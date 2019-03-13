@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdimetadata.instrument;
 
 import gov.noaa.pmel.sdimetadata.variable.DataVar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * measured by the sensor are part of {@link DataVar} since a sensor can be used to measure
  * more than one variable (e.g., atmospheric and aqueous CO2) with differing details (e.g., accuracy).
  */
-public class GasSensor extends Analyzer implements Cloneable {
+public class GasSensor extends Analyzer implements Cloneable, Serializable {
 
     protected ArrayList<CalibrationGas> calibrationGases;
 
@@ -93,4 +94,3 @@ public class GasSensor extends Analyzer implements Cloneable {
     }
 
 }
-

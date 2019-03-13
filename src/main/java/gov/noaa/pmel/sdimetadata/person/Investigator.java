@@ -1,12 +1,13 @@
 package gov.noaa.pmel.sdimetadata.person;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Full information about an investigator.
  * Super class for Submitter.
  */
-public class Investigator extends Person implements Cloneable {
+public class Investigator extends Person implements Cloneable, Serializable {
 
     protected ArrayList<String> streets;
     protected String city;
@@ -238,4 +239,3 @@ public class Investigator extends Person implements Cloneable {
     }
 
 }
-

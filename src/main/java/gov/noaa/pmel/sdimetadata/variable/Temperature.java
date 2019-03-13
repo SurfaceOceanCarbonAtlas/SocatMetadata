@@ -2,11 +2,13 @@ package gov.noaa.pmel.sdimetadata.variable;
 
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 
+import java.io.Serializable;
+
 /**
  * Information about a temperature measurement.
  * The default unit is set to degrees Celsius.
  */
-public class Temperature extends DataVar implements Cloneable {
+public class Temperature extends DataVar implements Cloneable, Serializable {
 
     public static final String DEGREES_CELSIUS_UNIT = "deg C";
 
@@ -111,4 +113,3 @@ public class Temperature extends DataVar implements Cloneable {
     }
 
 }
-

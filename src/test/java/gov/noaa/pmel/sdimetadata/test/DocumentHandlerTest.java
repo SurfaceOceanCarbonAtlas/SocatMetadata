@@ -289,4 +289,3 @@ public class DocumentHandlerTest {
             "<metadata></metadata>";
 
 }
-

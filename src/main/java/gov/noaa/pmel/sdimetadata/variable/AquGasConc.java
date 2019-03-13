@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.variable;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Information about measurements of a gas concentration in a body of water.
  */
-public class AquGasConc extends GasConc implements Cloneable {
+public class AquGasConc extends GasConc implements Cloneable, Serializable {
 
     protected String reportTemperature;
     protected String temperatureCorrection;
@@ -125,4 +126,3 @@ public class AquGasConc extends GasConc implements Cloneable {
     }
 
 }
-

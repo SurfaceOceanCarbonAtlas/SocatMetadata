@@ -1,10 +1,12 @@
 package gov.noaa.pmel.sdimetadata.variable;
 
+import java.io.Serializable;
+
 /**
  * Information about measurements of a gas concentration.  Instances of this class are assumed
  * to be atmospheric gas concentration as aqueous gas concentrations should be the subclass AquGasConc.
  */
-public class GasConc extends DataVar implements Cloneable {
+public class GasConc extends DataVar implements Cloneable, Serializable {
 
     protected String dryingMethod;
     protected String waterVaporCorrection;
@@ -113,4 +115,3 @@ public class GasConc extends DataVar implements Cloneable {
     }
 
 }
-

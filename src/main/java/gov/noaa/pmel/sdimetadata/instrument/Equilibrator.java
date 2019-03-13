@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.instrument;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Describes an equilibrator for measuring the amount of a dissolved gas in water.
  */
-public class Equilibrator extends Sampler implements Cloneable {
+public class Equilibrator extends Sampler implements Cloneable, Serializable {
     protected String equilibratorType;
     protected String chamberVol;
     protected String chamberWaterVol;
@@ -224,4 +225,3 @@ public class Equilibrator extends Sampler implements Cloneable {
     }
 
 }
-

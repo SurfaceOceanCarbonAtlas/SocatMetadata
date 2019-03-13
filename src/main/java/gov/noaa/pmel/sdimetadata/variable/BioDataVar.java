@@ -1,8 +1,9 @@
 package gov.noaa.pmel.sdimetadata.variable;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class BioDataVar extends DataVar implements Cloneable {
+public class BioDataVar extends DataVar implements Cloneable, Serializable {
 
     String biologicalSubject;
     String speciesId;
@@ -158,4 +159,3 @@ public class BioDataVar extends DataVar implements Cloneable {
     }
 
 }
-

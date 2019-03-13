@@ -2,11 +2,13 @@ package gov.noaa.pmel.sdimetadata.instrument;
 
 import gov.noaa.pmel.sdimetadata.variable.DataVar;
 
+import java.io.Serializable;
+
 /**
  * Basic information about an instrument that is a pressure sensor.  Specific details about values measured
  * by the sensor are part of {@link DataVar}.
  */
-public class PressureSensor extends Analyzer implements Cloneable {
+public class PressureSensor extends Analyzer implements Cloneable, Serializable {
 
     @Override
     public PressureSensor clone() {
@@ -35,4 +37,3 @@ public class PressureSensor extends Analyzer implements Cloneable {
     }
 
 }
-

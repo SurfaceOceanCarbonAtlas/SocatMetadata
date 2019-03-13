@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdimetadata;
 
 import gov.noaa.pmel.sdimetadata.util.Datestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 /**
  * Miscellaneous information about a dataset.
  */
-public class MiscInfo implements Cloneable {
+public class MiscInfo implements Cloneable, Serializable {
 
     protected String datasetId;
     protected String datasetName;

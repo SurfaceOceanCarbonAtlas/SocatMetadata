@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.instrument;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Base class for an analyzing instrument.
  */
-public class Analyzer extends Instrument {
+public class Analyzer extends Instrument implements Serializable {
 
     protected String calibration;
 

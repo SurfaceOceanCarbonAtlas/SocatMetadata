@@ -2,12 +2,14 @@ package gov.noaa.pmel.sdimetadata.variable;
 
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 
+import java.io.Serializable;
+
 /**
  * Information about an air pressure measurement.
  * The default unit is hectopascals instead of empty.
  * Also provides a pressure correction field.
  */
-public class AirPressure extends DataVar implements Cloneable {
+public class AirPressure extends DataVar implements Cloneable, Serializable {
 
     public static final String HECTOPASCALS_UNIT = "hPa";
 

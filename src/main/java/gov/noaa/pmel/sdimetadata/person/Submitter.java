@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.person;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Same as Investigator except requires contact information to be valid.
  */
-public class Submitter extends Investigator implements Cloneable {
+public class Submitter extends Investigator implements Cloneable, Serializable {
 
     /**
      * Create with all fields empty

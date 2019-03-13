@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdimetadata;
 
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +14,7 @@ import java.util.TreeSet;
 /**
  * Information about the longitude, latitude, and time coverage of data in a dataset
  */
-public class Coverage implements Cloneable {
+public class Coverage implements Cloneable, Serializable {
 
     public static final String LONGITUDE_UNITS = "dec deg E";
     public static final String LATITUDE_UNITS = "dec deg N";
@@ -423,4 +424,3 @@ public class Coverage implements Cloneable {
     }
 
 }
-

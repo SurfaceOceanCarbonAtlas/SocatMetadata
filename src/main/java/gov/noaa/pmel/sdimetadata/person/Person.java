@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdimetadata.person;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Basic information to uniquely describe an investigator.
  */
-public class Person implements Cloneable {
+public class Person implements Cloneable, Serializable {
 
     protected String lastName;
     protected String firstName;

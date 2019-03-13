@@ -1,10 +1,12 @@
 package gov.noaa.pmel.sdimetadata.util;
 
+import java.io.Serializable;
+
 /**
  * Represents a numeric string value with units (optional).
  * Used when the numeric value of the string needs to be validated and used.
  */
-public final class NumericString implements Cloneable {
+public final class NumericString implements Cloneable, Serializable {
 
     private String valueString;
     private String unitString;
@@ -198,4 +200,3 @@ public final class NumericString implements Cloneable {
     }
 
 }
-

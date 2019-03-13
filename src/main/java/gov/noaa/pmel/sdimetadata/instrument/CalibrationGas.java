@@ -3,12 +3,13 @@ package gov.noaa.pmel.sdimetadata.instrument;
 
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * Describes a standard gas mixture used for calibration of instruments.
  */
-public class CalibrationGas implements Cloneable {
+public class CalibrationGas implements Cloneable, Serializable {
 
     public static final String GAS_CONCENTRATION_UNIT = "ppm";
 
@@ -282,4 +283,3 @@ public class CalibrationGas implements Cloneable {
     }
 
 }
-

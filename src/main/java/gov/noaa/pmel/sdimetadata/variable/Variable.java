@@ -2,13 +2,14 @@ package gov.noaa.pmel.sdimetadata.variable;
 
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
  * Basic variable information; is the base class for all variable types.
  */
-public class Variable implements Cloneable {
+public class Variable implements Cloneable, Serializable {
 
     protected String colName;
     protected String fullName;
@@ -313,4 +314,3 @@ public class Variable implements Cloneable {
     }
 
 }
-

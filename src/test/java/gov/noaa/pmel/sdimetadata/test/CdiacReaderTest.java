@@ -1081,4 +1081,3 @@ public class CdiacReaderTest {
             "</x_tags>\n";
 
 }
-
