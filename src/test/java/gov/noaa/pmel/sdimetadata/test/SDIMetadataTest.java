@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
@@ -26,6 +25,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Many tests of the SDIMetadata class occur under CdiacReaderTest
+ */
 public class SDIMetadataTest {
 
     private SDIMetadata mdataFromCdiac;
