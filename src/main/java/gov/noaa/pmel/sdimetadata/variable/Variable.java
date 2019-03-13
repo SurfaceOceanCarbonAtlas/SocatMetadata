@@ -217,6 +217,19 @@ public class Variable implements Cloneable, Serializable {
     }
 
     /**
+     * Calls {@link #setAddnInfo(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param addnInfo
+     *         assign as the list of additional information strings; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any information string given is null or blank
+     */
+    public void setAddnInfo(ArrayList<String> addnInfo) throws IllegalArgumentException {
+        setAddnInfo((Iterable<String>) addnInfo);
+    }
+
+    /**
      * @param addnInfo
      *         assign as the list of additional information strings; if null, an empty list is assigned
      *

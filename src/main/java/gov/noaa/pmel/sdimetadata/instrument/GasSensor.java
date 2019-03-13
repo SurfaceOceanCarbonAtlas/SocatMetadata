@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class GasSensor extends Analyzer implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = -3268673181718773125L;
+    private static final long serialVersionUID = 6967935667581623863L;
 
     protected ArrayList<CalibrationGas> calibrationGases;
 
@@ -31,6 +31,19 @@ public class GasSensor extends Analyzer implements Cloneable, Serializable {
             gasList.add(gas.clone());
         }
         return gasList;
+    }
+
+    /**
+     * Calls {@link #setCalibrationGases(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param calibrationGases
+     *         assign as the list of calibration gases; if null, an empty list is assigned.
+     *
+     * @throws IllegalArgumentException
+     *         if any of the gases given in the list are null
+     */
+    public void setCalibrationGases(ArrayList<CalibrationGas> calibrationGases) throws IllegalArgumentException {
+        setCalibrationGases((Iterable<CalibrationGas>) calibrationGases);
     }
 
     /**

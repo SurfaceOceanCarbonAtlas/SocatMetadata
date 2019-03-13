@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 public class SDIMetadata implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = -8070036719007807156L;
+    private static final long serialVersionUID = -9200008475499847783L;
 
     protected Submitter submitter;
     protected ArrayList<Investigator> investigators;
@@ -23,6 +23,9 @@ public class SDIMetadata implements Cloneable, Serializable {
     protected ArrayList<Variable> variables;
     protected MiscInfo miscInfo;
 
+    /**
+     * Create with empty or invalid values for all fields.
+     */
     public SDIMetadata() {
         submitter = new Submitter();
         investigators = new ArrayList<Investigator>();
@@ -89,14 +92,24 @@ public class SDIMetadata implements Cloneable, Serializable {
         return invalid;
     }
 
+    /**
+     * @return the submitter of this dataset; never null but may contain invalid values
+     */
     public Submitter getSubmitter() {
         return submitter.clone();
     }
 
+    /**
+     * @param submitter
+     *         assign as the submitter of this dataset; if null, a Submitter is created invalid values
+     */
     public void setSubmitter(Submitter submitter) {
         this.submitter = (submitter != null) ? submitter.clone() : new Submitter();
     }
 
+    /**
+     * @return the list of investigators (PIs) involved with this dataset; never null but may be empty
+     */
     public ArrayList<Investigator> getInvestigators() {
         ArrayList<Investigator> piList = new ArrayList<Investigator>(investigators.size());
         for (Investigator pi : investigators) {
@@ -105,6 +118,28 @@ public class SDIMetadata implements Cloneable, Serializable {
         return piList;
     }
 
+    /**
+     * Calls {@link #setInvestigators(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param investigators
+     *         assign as the list of investigators (PIs) involved with this dataset;
+     *         if null, and empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if an investigator in the list is null
+     */
+    public void setInvestigators(ArrayList<Investigator> investigators) throws IllegalArgumentException {
+        setInvestigators((Iterable<Investigator>) investigators);
+    }
+
+    /**
+     * @param investigators
+     *         assign as the list of investigators (PIs) involved with this dataset;
+     *         if null, and empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if an investigator in the list is null
+     */
     public void setInvestigators(Iterable<Investigator> investigators) throws IllegalArgumentException {
         this.investigators.clear();
         if ( investigators != null ) {
@@ -116,22 +151,39 @@ public class SDIMetadata implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * @return the platform for this dataset; never null but may contain invalid values
+     */
     public Platform getPlatform() {
         return platform.clone();
     }
 
+    /**
+     * @param platform
+     *         assign as the platform for this dataset; if null, a Platform with invalid values is assigned
+     */
     public void setPlatform(Platform platform) {
         this.platform = (platform != null) ? platform.clone() : new Platform();
     }
 
+    /**
+     * @return the coverage of this dataset; never null but may contain invalid values
+     */
     public Coverage getCoverage() {
         return coverage.clone();
     }
 
+    /**
+     * @param coverage
+     *         assign as the coverage of this dataset; if null, a Coverage with invalid values is assigned
+     */
     public void setCoverage(Coverage coverage) {
         this.coverage = (coverage != null) ? coverage.clone() : new Coverage();
     }
 
+    /**
+     * @return the list of instruments used in this dataset; never null but may be empty
+     */
     public ArrayList<Instrument> getInstruments() {
         ArrayList<Instrument> instList = new ArrayList<Instrument>(instruments.size());
         for (Instrument inst : instruments) {
@@ -140,6 +192,26 @@ public class SDIMetadata implements Cloneable, Serializable {
         return instList;
     }
 
+    /**
+     * Calls {@link #setInstruments(Iterable)}(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param instruments
+     *         assign as the list of instruments used in this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if an instrument in the list is null
+     */
+    public void setInstruments(ArrayList<Instrument> instruments) throws IllegalArgumentException {
+        setInstruments((Iterable<Instrument>) instruments);
+    }
+
+    /**
+     * @param instruments
+     *         assign as the list of instruments used in this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if an instrument in the list is null
+     */
     public void setInstruments(Iterable<Instrument> instruments) throws IllegalArgumentException {
         this.instruments.clear();
         if ( instruments != null ) {
@@ -151,6 +223,9 @@ public class SDIMetadata implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * @return the list of variable in this dataset; never null but may be empty
+     */
     public ArrayList<Variable> getVariables() {
         ArrayList<Variable> varList = new ArrayList<Variable>(variables.size());
         for (Variable var : variables) {
@@ -159,6 +234,26 @@ public class SDIMetadata implements Cloneable, Serializable {
         return varList;
     }
 
+    /**
+     * Calls {@link #setVariables(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param variables
+     *         assign as the list of variables in this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         is a variable in the list is null
+     */
+    public void setVariables(ArrayList<Variable> variables) throws IllegalArgumentException {
+        setVariables((Iterable<Variable>) variables);
+    }
+
+    /**
+     * @param variables
+     *         assign as the list of variables in this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         is a variable in the list is null
+     */
     public void setVariables(Iterable<Variable> variables) throws IllegalArgumentException {
         this.variables.clear();
         if ( variables != null ) {

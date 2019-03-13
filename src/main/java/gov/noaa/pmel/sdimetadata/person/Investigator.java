@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Investigator extends Person implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 1860815613630569487L;
+    private static final long serialVersionUID = 9221881299932903085L;
 
     protected ArrayList<String> streets;
     protected String city;
@@ -55,6 +55,19 @@ public class Investigator extends Person implements Cloneable, Serializable {
      */
     public ArrayList<String> getStreets() {
         return new ArrayList<String>(streets);
+    }
+
+    /**
+     * Calls {@link #setStreets(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param streets
+     *         assign as the street / delivery point portion of the address; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if the given list contains a null or blank string
+     */
+    public void setStreets(ArrayList<String> streets) throws IllegalArgumentException {
+        setStreets((Iterable<String>) streets);
     }
 
     /**

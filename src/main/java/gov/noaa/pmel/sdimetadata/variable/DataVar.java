@@ -10,7 +10,7 @@ import java.util.HashSet;
  */
 public class DataVar extends Variable implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 7991736564776365786L;
+    private static final long serialVersionUID = 5977962113555361969L;
 
     protected String observeType;
     protected MethodType measureMethod;
@@ -309,6 +309,20 @@ public class DataVar extends Variable implements Cloneable, Serializable {
      */
     public HashSet<String> getInstrumentNames() {
         return new HashSet<String>(instrumentNames);
+    }
+
+    /**
+     * Calls {@link #setInstrumentNames(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param instrumentNames
+     *         assign as the list of names of instruments used to sample or analyze this variable;
+     *         if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any analyzer name given is null or blank
+     */
+    public void setInstrumentNames(HashSet<String> instrumentNames) throws IllegalArgumentException {
+        setInstrumentNames((Iterable<String>) instrumentNames);
     }
 
     /**

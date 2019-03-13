@@ -9,7 +9,7 @@ import java.util.HashSet;
  */
 public class Instrument implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 3313446987223474757L;
+    private static final long serialVersionUID = 6750121989758251383L;
 
     protected String name;
     protected String id;
@@ -107,6 +107,20 @@ public class Instrument implements Cloneable, Serializable {
      */
     public ArrayList<String> getAddnInfo() {
         return new ArrayList<String>(addnInfo);
+    }
+
+    /**
+     * Calls {@link #setAddnInfo(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param addnInfo
+     *         assign as the list of additional information about this instrument;
+     *         if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any of the information strings are null or empty
+     */
+    public void setAddnInfo(ArrayList<String> addnInfo) throws IllegalArgumentException {
+        setAddnInfo((Iterable<String>) addnInfo);
     }
 
     /**

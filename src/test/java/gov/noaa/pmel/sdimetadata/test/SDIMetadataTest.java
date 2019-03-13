@@ -12,6 +12,8 @@ import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -153,6 +155,20 @@ public class SDIMetadataTest {
         ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream ois = new ObjectInputStream(bis);
         SDIMetadata mdata = (SDIMetadata) ois.readObject();
+        assertEquals(mdataFromCdiac, mdata);
+        assertNotSame(mdataFromCdiac, mdata);
+    }
+
+    @Test
+    public void testXmlEncodeDecode() throws Exception {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        XMLEncoder xenc = new XMLEncoder(bos);
+        xenc.writeObject(mdataFromCdiac);
+        xenc.close();
+        String encoded = bos.toString();
+        ByteArrayInputStream bis = new ByteArrayInputStream(encoded.getBytes());
+        XMLDecoder xdec = new XMLDecoder(bis);
+        SDIMetadata mdata = (SDIMetadata) xdec.readObject();
         assertEquals(mdataFromCdiac, mdata);
         assertNotSame(mdataFromCdiac, mdata);
     }

@@ -8,7 +8,7 @@ import java.util.HashSet;
  */
 public class Sampler extends Instrument implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 812708628196746921L;
+    private static final long serialVersionUID = 8437893075229934306L;
 
     HashSet<String> instrumentNames;
 
@@ -26,6 +26,20 @@ public class Sampler extends Instrument implements Cloneable, Serializable {
      */
     public HashSet<String> getInstrumentNames() {
         return new HashSet<String>(instrumentNames);
+    }
+
+    /**
+     * Calls {@link #setInstrumentNames(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param instrumentNames
+     *         assign as the set of names of attached instruments (primarily sensors);
+     *         if null, an empty set is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if the set contains null or blank strings
+     */
+    public void setInstrumentNames(HashSet<String> instrumentNames) throws IllegalArgumentException {
+        setInstrumentNames((Iterable<String>) instrumentNames);
     }
 
     /**

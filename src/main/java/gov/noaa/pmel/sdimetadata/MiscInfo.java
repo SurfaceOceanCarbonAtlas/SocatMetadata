@@ -12,7 +12,7 @@ import java.util.HashSet;
  */
 public class MiscInfo implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 440999823143744176L;
+    private static final long serialVersionUID = -2087115227872793712L;
 
     protected String datasetId;
     protected String datasetName;
@@ -314,6 +314,19 @@ public class MiscInfo implements Cloneable, Serializable {
     }
 
     /**
+     * Calls {@link #setReferences(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param references
+     *         assign as the list of references used by this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any reference given is null or blank
+     */
+    public void setReferences(ArrayList<String> references) throws IllegalArgumentException {
+        setReferences((Iterable<String>) references);
+    }
+
+    /**
      * @param references
      *         assign as the list of references used by this dataset; if null, an empty list is assigned
      *
@@ -340,6 +353,19 @@ public class MiscInfo implements Cloneable, Serializable {
      */
     public ArrayList<String> getPortsOfCall() {
         return new ArrayList<String>(portsOfCall);
+    }
+
+    /**
+     * Calls {@link #setPortsOfCall(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param portsOfCall
+     *         assign as the port-of-call list for this dataset; if null, an empty list is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any of the port-of-call strings are null or empty
+     */
+    public void setPortsOfCall(ArrayList<String> portsOfCall) throws IllegalArgumentException {
+        setPortsOfCall((Iterable<String>) portsOfCall);
     }
 
     /**
@@ -370,6 +396,20 @@ public class MiscInfo implements Cloneable, Serializable {
      */
     public ArrayList<String> getAddnInfo() {
         return new ArrayList<String>(addnInfo);
+    }
+
+    /**
+     * Calls {@link #setAddnInfo(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param addnInfo
+     *         assign as the list of additional information strings for this dataset;
+     *         if null, an empty list is assigned.
+     *
+     * @throws IllegalArgumentException
+     *         if any of the additional information strings are null or empty
+     */
+    public void setAddnInfo(ArrayList<String> addnInfo) throws IllegalArgumentException {
+        setAddnInfo((Iterable<String>) addnInfo);
     }
 
     /**
@@ -436,6 +476,19 @@ public class MiscInfo implements Cloneable, Serializable {
             dup.add(datestamp.clone());
         }
         return dup;
+    }
+
+    /**
+     * Calls {@link #setHistory(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param history
+     *         assign as the submission date history list for this dataset; if null, an empty list is assigned.
+     *
+     * @throws IllegalArgumentException
+     *         if any of the dates given are invalid
+     */
+    public void setHistory(ArrayList<Datestamp> history) throws IllegalArgumentException {
+        setHistory((Iterable<Datestamp>) history);
     }
 
     /**

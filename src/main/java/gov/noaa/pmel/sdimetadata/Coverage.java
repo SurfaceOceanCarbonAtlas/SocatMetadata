@@ -16,7 +16,7 @@ import java.util.TreeSet;
  */
 public class Coverage implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = -3136238017648829235L;
+    private static final long serialVersionUID = 8537065774310791041L;
 
     public static final String LONGITUDE_UNITS = "dec deg E";
     public static final String LATITUDE_UNITS = "dec deg N";
@@ -325,6 +325,19 @@ public class Coverage implements Cloneable, Serializable {
      */
     public TreeSet<String> getGeographicNames() {
         return new TreeSet<String>(geographicNames);
+    }
+
+    /**
+     * Calls {@link #setGeographicNames(Iterable)}; added to satisfy JavaBean requirements.
+     *
+     * @param geographicNames
+     *         assign as the list of geographic names; if null, an empty set is assigned
+     *
+     * @throws IllegalArgumentException
+     *         if any name given is null or blank
+     */
+    public void setGeographicNames(TreeSet<String> geographicNames) throws IllegalArgumentException {
+        setGeographicNames((Iterable<String>) geographicNames);
     }
 
     /**
