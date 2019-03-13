@@ -165,8 +165,7 @@ public class SDIMetadataTest {
         XMLEncoder xenc = new XMLEncoder(bos);
         xenc.writeObject(mdataFromCdiac);
         xenc.close();
-        String encoded = bos.toString();
-        ByteArrayInputStream bis = new ByteArrayInputStream(encoded.getBytes());
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         XMLDecoder xdec = new XMLDecoder(bis);
         SDIMetadata mdata = (SDIMetadata) xdec.readObject();
         assertEquals(mdataFromCdiac, mdata);
