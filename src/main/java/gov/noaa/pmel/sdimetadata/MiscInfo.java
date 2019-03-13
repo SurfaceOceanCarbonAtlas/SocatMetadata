@@ -12,6 +12,8 @@ import java.util.HashSet;
  */
 public class MiscInfo implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 440999823143744176L;
+
     protected String datasetId;
     protected String datasetName;
     protected String sectionName;

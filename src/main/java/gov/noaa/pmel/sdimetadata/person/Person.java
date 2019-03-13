@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class Person implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 9151435987605275754L;
+
     protected String lastName;
     protected String firstName;
     protected String middle;

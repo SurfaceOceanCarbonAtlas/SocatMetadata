@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class AquGasConc extends GasConc implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 5877057866136207827L;
+
     protected String reportTemperature;
     protected String temperatureCorrection;
 

@@ -11,6 +11,8 @@ import java.util.TimeZone;
  */
 public final class Datestamp implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 7416956841874017682L;
+
     /**
      * Integer returned for invalid year, month, or day
      */

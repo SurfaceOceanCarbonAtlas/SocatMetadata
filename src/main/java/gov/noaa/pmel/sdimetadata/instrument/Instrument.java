@@ -9,6 +9,8 @@ import java.util.HashSet;
  */
 public class Instrument implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 3313446987223474757L;
+
     protected String name;
     protected String id;
     protected String manufacturer;

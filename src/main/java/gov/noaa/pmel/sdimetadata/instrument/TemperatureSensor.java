@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class TemperatureSensor extends Analyzer implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -187420303696842548L;
+
     @Override
     public TemperatureSensor clone() {
         return (TemperatureSensor) super.clone();

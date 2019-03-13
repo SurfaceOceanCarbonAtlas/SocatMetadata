@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class GasSensor extends Analyzer implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -3268673181718773125L;
+
     protected ArrayList<CalibrationGas> calibrationGases;
 
     public GasSensor() {

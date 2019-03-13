@@ -11,6 +11,8 @@ import java.util.HashSet;
  */
 public class CalibrationGas implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -7515908593425329334L;
+
     public static final String GAS_CONCENTRATION_UNIT = "ppm";
 
     protected String id;

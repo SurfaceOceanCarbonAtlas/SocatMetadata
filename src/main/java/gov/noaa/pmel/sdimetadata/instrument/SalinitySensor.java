@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class SalinitySensor extends Analyzer implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -4978665012952945443L;
+
     @Override
     public SalinitySensor clone() {
         return (SalinitySensor) super.clone();

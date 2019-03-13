@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class Platform implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 3808781740888263436L;
+
     protected String platformId;
     protected String platformName;
     protected PlatformType platformType;

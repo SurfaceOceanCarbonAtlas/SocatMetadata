@@ -5,6 +5,8 @@ import java.util.HashSet;
 
 public class BioDataVar extends DataVar implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -4915894323561605393L;
+
     String biologicalSubject;
     String speciesId;
     String lifeStage;

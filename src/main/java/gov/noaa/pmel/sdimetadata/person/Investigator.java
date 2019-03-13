@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class Investigator extends Person implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 1860815613630569487L;
+
     protected ArrayList<String> streets;
     protected String city;
     protected String region;

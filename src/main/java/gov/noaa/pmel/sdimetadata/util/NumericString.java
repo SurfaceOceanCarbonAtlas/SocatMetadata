@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public final class NumericString implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -53464753362110386L;
+
     private String valueString;
     private String unitString;
     // numericValue is always assigned from parsing valueString

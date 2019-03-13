@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class Analyzer extends Instrument implements Serializable {
 
+    private static final long serialVersionUID = 3062292613497832116L;
+
     protected String calibration;
 
     public Analyzer() {

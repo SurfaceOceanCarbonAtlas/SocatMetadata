@@ -13,6 +13,8 @@ import java.util.HashSet;
 
 public class SDIMetadata implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -8070036719007807156L;
+
     protected Submitter submitter;
     protected ArrayList<Investigator> investigators;
     protected Platform platform;

@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class Submitter extends Investigator implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 8307061604008691345L;
+
     /**
      * Create with all fields empty
      */

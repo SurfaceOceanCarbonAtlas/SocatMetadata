@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public class GasConc extends DataVar implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 5369958098823347405L;
+
     protected String dryingMethod;
     protected String waterVaporCorrection;
 

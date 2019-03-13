@@ -11,6 +11,8 @@ import java.util.HashSet;
  */
 public class Variable implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -2753322719818091667L;
+
     protected String colName;
     protected String fullName;
     protected String varUnit;

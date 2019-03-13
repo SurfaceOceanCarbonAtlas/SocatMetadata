@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class PressureSensor extends Analyzer implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -5620536640311408364L;
+
     @Override
     public PressureSensor clone() {
         return (PressureSensor) super.clone();

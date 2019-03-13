@@ -10,6 +10,8 @@ import java.util.HashSet;
  */
 public class DataVar extends Variable implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 7991736564776365786L;
+
     protected String observeType;
     protected MethodType measureMethod;
     protected String methodDescription;

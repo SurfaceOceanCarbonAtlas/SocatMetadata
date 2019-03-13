@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class AirPressure extends DataVar implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 7217482086975795524L;
+
     public static final String HECTOPASCALS_UNIT = "hPa";
 
     protected String pressureCorrection;

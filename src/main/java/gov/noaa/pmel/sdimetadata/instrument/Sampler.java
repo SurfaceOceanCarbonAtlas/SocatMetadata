@@ -8,6 +8,8 @@ import java.util.HashSet;
  */
 public class Sampler extends Instrument implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 812708628196746921L;
+
     HashSet<String> instrumentNames;
 
     /**

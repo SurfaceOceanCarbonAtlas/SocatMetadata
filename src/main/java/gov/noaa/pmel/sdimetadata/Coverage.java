@@ -16,6 +16,8 @@ import java.util.TreeSet;
  */
 public class Coverage implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -3136238017648829235L;
+
     public static final String LONGITUDE_UNITS = "dec deg E";
     public static final String LATITUDE_UNITS = "dec deg N";
     public static final String WGS84 = "WGS 84";

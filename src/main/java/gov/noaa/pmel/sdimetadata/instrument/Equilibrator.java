@@ -7,6 +7,9 @@ import java.util.HashSet;
  * Describes an equilibrator for measuring the amount of a dissolved gas in water.
  */
 public class Equilibrator extends Sampler implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -6321292126279481010L;
+
     protected String equilibratorType;
     protected String chamberVol;
     protected String chamberWaterVol;

@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 public class Temperature extends DataVar implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = 5027551710709652543L;
+
     public static final String DEGREES_CELSIUS_UNIT = "deg C";
 
     /**
@@ -28,7 +30,7 @@ public class Temperature extends DataVar implements Cloneable, Serializable {
      */
     public Temperature(Variable var) {
         super(var);
-        if ( (var != null) && ( var instanceof Temperature) ) {
+        if ( (var != null) && (var instanceof Temperature) ) {
             Temperature temp = (Temperature) var;
             varUnit = temp.varUnit;
             accuracy = temp.accuracy.clone();
