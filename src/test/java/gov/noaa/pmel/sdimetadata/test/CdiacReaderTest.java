@@ -17,6 +17,8 @@ import gov.noaa.pmel.sdimetadata.person.Person;
 import gov.noaa.pmel.sdimetadata.person.Submitter;
 import gov.noaa.pmel.sdimetadata.platform.Platform;
 import gov.noaa.pmel.sdimetadata.platform.PlatformType;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader.VarType;
 import gov.noaa.pmel.sdimetadata.util.Datestamp;
 import gov.noaa.pmel.sdimetadata.util.NumericString;
 import gov.noaa.pmel.sdimetadata.variable.AirPressure;
@@ -26,8 +28,6 @@ import gov.noaa.pmel.sdimetadata.variable.GasConc;
 import gov.noaa.pmel.sdimetadata.variable.MethodType;
 import gov.noaa.pmel.sdimetadata.variable.Temperature;
 import gov.noaa.pmel.sdimetadata.variable.Variable;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader.VarType;
 import org.junit.Test;
 
 import java.io.StringReader;

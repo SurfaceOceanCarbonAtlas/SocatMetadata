@@ -2,9 +2,9 @@ package gov.noaa.pmel.sdimetadata.test;
 
 import gov.noaa.pmel.sdimetadata.Coverage;
 import gov.noaa.pmel.sdimetadata.SDIMetadata;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
-import gov.noaa.pmel.sdimetadata.xml.DocumentHandler;
-import gov.noaa.pmel.sdimetadata.xml.OcadsWriter;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader;
+import gov.noaa.pmel.sdimetadata.translate.DocumentHandler;
+import gov.noaa.pmel.sdimetadata.translate.OcadsWriter;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -14,7 +14,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
-import static gov.noaa.pmel.sdimetadata.xml.DocumentHandler.SEP;
+import static gov.noaa.pmel.sdimetadata.translate.DocumentHandler.SEP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;

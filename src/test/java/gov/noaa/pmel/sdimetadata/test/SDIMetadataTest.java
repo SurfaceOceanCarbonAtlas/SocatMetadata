@@ -7,8 +7,8 @@ import gov.noaa.pmel.sdimetadata.instrument.Instrument;
 import gov.noaa.pmel.sdimetadata.person.Investigator;
 import gov.noaa.pmel.sdimetadata.person.Submitter;
 import gov.noaa.pmel.sdimetadata.platform.Platform;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader;
 import gov.noaa.pmel.sdimetadata.variable.Variable;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
 import org.junit.Before;
 import org.junit.Test;
 

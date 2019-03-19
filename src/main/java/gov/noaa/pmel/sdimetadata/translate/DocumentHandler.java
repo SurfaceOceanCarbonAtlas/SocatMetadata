@@ -1,4 +1,4 @@
-package gov.noaa.pmel.sdimetadata.xml;
+package gov.noaa.pmel.sdimetadata.translate;
 
 import gov.noaa.pmel.sdimetadata.person.Person;
 import gov.noaa.pmel.sdimetadata.platform.PlatformType;

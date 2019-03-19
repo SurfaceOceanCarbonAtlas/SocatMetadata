@@ -2,9 +2,9 @@ package gov.noaa.pmel.sdimetadata.test;
 
 import gov.noaa.pmel.sdimetadata.person.Person;
 import gov.noaa.pmel.sdimetadata.platform.PlatformType;
+import gov.noaa.pmel.sdimetadata.translate.DocumentHandler;
 import gov.noaa.pmel.sdimetadata.util.Datestamp;
 import gov.noaa.pmel.sdimetadata.util.NumericString;
-import gov.noaa.pmel.sdimetadata.xml.DocumentHandler;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static gov.noaa.pmel.sdimetadata.xml.DocumentHandler.SEP;
+import static gov.noaa.pmel.sdimetadata.translate.DocumentHandler.SEP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

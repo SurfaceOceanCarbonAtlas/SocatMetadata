@@ -1,9 +1,9 @@
 package gov.noaa.pmel.sdimetadata.apps;
 
 import gov.noaa.pmel.sdimetadata.SDIMetadata;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader;
-import gov.noaa.pmel.sdimetadata.xml.CdiacReader.VarType;
-import gov.noaa.pmel.sdimetadata.xml.OcadsWriter;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader;
+import gov.noaa.pmel.sdimetadata.translate.CdiacReader.VarType;
+import gov.noaa.pmel.sdimetadata.translate.OcadsWriter;
 
 import java.io.FileReader;
 import java.io.FileWriter;
