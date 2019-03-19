@@ -81,7 +81,7 @@ public class CdiacToOcadsConverter {
         try {
             FileWriter xmlWriter = new FileWriter(args[1]);
             OcadsWriter ocadsWriter = new OcadsWriter();
-            ocadsWriter.writeSDIMetadata(metadata, xmlWriter);
+            ocadsWriter.writeOcadsXml(metadata, xmlWriter);
             xmlWriter.close();
         } catch ( Exception ex ) {
             System.err.println("Problems writing the OCADS XML file '" + args[1] + "':");

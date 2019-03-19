@@ -193,7 +193,7 @@ public class OcadsWriter extends DocumentHandler {
      * @throws IOException
      *         if writing to the given writer throws one
      */
-    public void writeSDIMetadata(SDIMetadata mdata, Writer xmlWriter) throws IOException {
+    public void writeOcadsXml(SDIMetadata mdata, Writer xmlWriter) throws IOException {
         MiscInfo info = mdata.getMiscInfo();
         setElementText(null, ACCESS_ID_ELEMENT_NAME, info.getAccessId());
         ArrayList<Datestamp> history = info.getHistory();

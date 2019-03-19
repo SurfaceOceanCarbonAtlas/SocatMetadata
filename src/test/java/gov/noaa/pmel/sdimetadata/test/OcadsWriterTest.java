@@ -49,7 +49,7 @@ public class OcadsWriterTest {
         try {
             StringWriter xmlWriter = new StringWriter();
             OcadsWriter ocadsWriter = new OcadsWriter();
-            ocadsWriter.writeSDIMetadata(metadata, xmlWriter);
+            ocadsWriter.writeOcadsXml(metadata, xmlWriter);
             xmlString = xmlWriter.getBuffer().toString();
         } catch ( Exception ex ) {
             fail("Problems creating the OCADS XML contents: " + ex.getMessage());
