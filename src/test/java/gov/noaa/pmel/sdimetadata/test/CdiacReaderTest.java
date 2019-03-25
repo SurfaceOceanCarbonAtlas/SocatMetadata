@@ -34,7 +34,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
@@ -45,9 +44,8 @@ public class CdiacReaderTest {
 
     @Test
     public void testGetVarTypeFromColumnName() {
-        HashMap<String,VarType> addnSet = new HashMap<String,VarType>();
-        addnSet.put("mynameforsst", VarType.SEA_SURFACE_TEMPERATURE);
-        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING), addnSet);
+        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING));
+        reader.associateColumnNameWithVarType("mynameforsst", VarType.SEA_SURFACE_TEMPERATURE);
         assertEquals(VarType.FCO2_WATER_EQU, reader.getVarTypeFromColumnName("fCO2_equ_w"));
         assertEquals(VarType.FCO2_WATER_SST, reader.getVarTypeFromColumnName("fCO2_SST_100_hum [uatm]"));
         assertEquals(VarType.PCO2_WATER_EQU, reader.getVarTypeFromColumnName("pCO2 SW Equi"));
@@ -80,7 +78,7 @@ public class CdiacReaderTest {
 
     @Test
     public void testCreateSDIMetadata() {
-        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING), null);
+        CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING));
         SDIMetadata mdata = reader.createSDIMetadata();
 
         Submitter submitter = mdata.getSubmitter();

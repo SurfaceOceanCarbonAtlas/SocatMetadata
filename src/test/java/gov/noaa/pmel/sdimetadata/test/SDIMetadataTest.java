@@ -43,7 +43,7 @@ public class SDIMetadataTest {
 
     @Before
     public void setUp() throws Exception {
-        CdiacReader reader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING), null);
+        CdiacReader reader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING));
         mdataFromCdiac = reader.createSDIMetadata();
         submitter = mdataFromCdiac.getSubmitter();
         investigators = mdataFromCdiac.getInvestigators();
