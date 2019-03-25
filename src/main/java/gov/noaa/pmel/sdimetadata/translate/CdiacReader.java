@@ -273,14 +273,11 @@ public class CdiacReader extends DocumentHandler {
      *
      * @param xmlReader
      *         read the CDIAC XML from here
-     * @param keyToTypeMap
-     *         additional mappings of variable column name key (remove anything not alphanumeric and
-     *         convert to lowercase) to variable type to add to the default mappings; can be null
      *
      * @throws IllegalArgumentException
      *         if there is a problem interpreting the XML read
      */
-    public CdiacReader(Reader xmlReader, Map<String,VarType> keyToTypeMap) throws IllegalArgumentException {
+    public CdiacReader(Reader xmlReader) throws IllegalArgumentException {
         Document omeDoc;
         try {
             omeDoc = (new SAXBuilder()).build(xmlReader);
@@ -291,13 +288,25 @@ public class CdiacReader extends DocumentHandler {
         if ( rootElement == null )
             throw new IllegalArgumentException("No root element found");
 
-        if ( keyToTypeMap != null ) {
-            this.keyToTypeMap = new HashMap<String,VarType>(DEFAULT_KEY_TO_TYPE_MAP);
-            this.keyToTypeMap.putAll(keyToTypeMap);
-        }
-        else
-            this.keyToTypeMap = DEFAULT_KEY_TO_TYPE_MAP;
+        this.keyToTypeMap = new HashMap<String,VarType>(DEFAULT_KEY_TO_TYPE_MAP);
+    }
 
+    /**
+     * Adds an association of a column name to a variable type.  The name key is generated from
+     * the name (remove anything not alphanumeric and convert to lowercase), and the resulting
+     * key added to the current map of name keys to variable types.
+     *
+     * @param colName
+     *         name of the column
+     * @param type
+     *         variable type
+     *
+     * @return previous variable type associated with the name key, or
+     *         null if there was no variable type previously associated with the name key
+     */
+    public VarType associateColumnNameWithVarType(String colName, VarType type) {
+        String key = STRIP_PATTERN.matcher(colName.toUpperCase()).replaceAll("").toLowerCase();
+        return keyToTypeMap.put(key, type);
     }
 
     /**
