@@ -175,11 +175,28 @@ public class OcadsWriter extends DocumentHandler {
     private static final String STANDARD_GAS_CONCENTRATION_ELEMENT_NAME = STANDARD_GAS_ELEMENT_NAME + SEP + "concentration";
     private static final String STANDARD_GAS_UNCERTAINTY_ELEMENT_NAME = STANDARD_GAS_ELEMENT_NAME + SEP + "uncertainty";
 
+    private Writer xmlWriter;
+
     /**
-     * Create a new document containing only the root element for OCADS XML content
+     * Creates a new document containing only the root element for OCADS XML content.
+     * Also assigns the writer to be used for output of the final XML document.
+     *
+     * @param writer
+     *         write OCADS XML to this writer
      */
-    public OcadsWriter() {
+    public OcadsWriter(Writer writer) {
         rootElement = new Element("metadata");
+        xmlWriter = writer;
+    }
+
+    /**
+     * Closes the writer given in the constructor of this instance.
+     *
+     * @throws IOException
+     *         if one is thrown when closing the writer
+     */
+    public void close() throws IOException {
+        xmlWriter.close();
     }
 
     /**
@@ -187,13 +204,11 @@ public class OcadsWriter extends DocumentHandler {
      *
      * @param mdata
      *         write the contents of this metadata
-     * @param xmlWriter
-     *         write OCADS XML to this writer
      *
      * @throws IOException
      *         if writing to the given writer throws one
      */
-    public void writeOcadsXml(SDIMetadata mdata, Writer xmlWriter) throws IOException {
+    public void writeOcadsXml(SDIMetadata mdata) throws IOException {
         MiscInfo info = mdata.getMiscInfo();
         setElementText(null, ACCESS_ID_ELEMENT_NAME, info.getAccessId());
         ArrayList<Datestamp> history = info.getHistory();
