@@ -48,8 +48,9 @@ public class OcadsWriterTest {
         String xmlString = null;
         try {
             StringWriter xmlWriter = new StringWriter();
-            OcadsWriter ocadsWriter = new OcadsWriter();
-            ocadsWriter.writeOcadsXml(metadata, xmlWriter);
+            OcadsWriter ocadsWriter = new OcadsWriter(xmlWriter);
+            ocadsWriter.writeOcadsXml(metadata);
+            ocadsWriter.close();
             xmlString = xmlWriter.getBuffer().toString();
         } catch ( Exception ex ) {
             fail("Problems creating the OCADS XML contents: " + ex.getMessage());
