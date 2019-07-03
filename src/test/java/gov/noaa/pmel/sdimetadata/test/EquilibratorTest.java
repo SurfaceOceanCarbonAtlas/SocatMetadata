@@ -42,10 +42,12 @@ public class EquilibratorTest {
     public void testInvalidFieldNames() {
         Equilibrator sampler = new Equilibrator();
         assertEquals(new HashSet<String>(Arrays.asList(
-                "equilibratorType", "chamberWaterVol", "chamberGasVol",
+                "name", "instrumentNames", "equilibratorType", "chamberWaterVol", "chamberGasVol",
                 "waterFlowRate", "gasFlowRate", "venting"
         )), sampler.invalidFieldNames());
 
+        sampler.setName(NAME);
+        sampler.setInstrumentNames(Arrays.asList("TemperatureSensor", "PressureSensor", "CO2Sensor"));
         sampler.setEquilibratorType(EQUILIBRATOR_TYPE);
         assertEquals(new HashSet<String>(Arrays.asList(
                 "chamberWaterVol", "chamberGasVol", "waterFlowRate", "gasFlowRate", "venting"

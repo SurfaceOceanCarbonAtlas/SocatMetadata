@@ -33,7 +33,7 @@ public class Equilibrator extends Sampler implements Cloneable, Serializable {
 
     @Override
     public HashSet<String> invalidFieldNames() {
-        HashSet<String> invalids = new HashSet<String>();
+        HashSet<String> invalids = super.invalidFieldNames();
         if ( equilibratorType.isEmpty() )
             invalids.add("equilibratorType");
         if ( chamberWaterVol.isEmpty() )

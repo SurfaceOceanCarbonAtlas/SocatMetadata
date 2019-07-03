@@ -86,11 +86,7 @@ public class DataVar extends Variable implements Cloneable, Serializable {
 
     @Override
     public HashSet<String> invalidFieldNames() {
-        HashSet<String> invalid = new HashSet<String>();
-        if ( colName.isEmpty() )
-            invalid.add("colName");
-        if ( fullName.isEmpty() )
-            invalid.add("fullName");
+        HashSet<String> invalid = super.invalidFieldNames();
         if ( observeType.isEmpty() )
             invalid.add("observeType");
         if ( !accuracy.isValid() )

@@ -41,27 +41,11 @@ public class BioDataVar extends DataVar implements Cloneable, Serializable {
 
     @Override
     public HashSet<String> invalidFieldNames() {
-        HashSet<String> invalids = new HashSet<String>();
-        if ( colName.isEmpty() )
-            invalids.add("colName");
-        if ( fullName.isEmpty() )
-            invalids.add("fullName");
-        if ( observeType.isEmpty() )
-            invalids.add("observeType");
-        switch ( measureMethod ) {
-            case UNSPECIFIED:
-                invalids.add("measureMethod");
-                break;
-            case COMPUTED:
-                if ( methodDescription.isEmpty() )
-                    invalids.add("methodDescription");
-                break;
-            default:
-                if ( instrumentNames.isEmpty() )
-                    invalids.add("instrumentNames");
-        }
+        HashSet<String> invalids = super.invalidFieldNames();
         if ( speciesId.isEmpty() )
             invalids.add("speciesId");
+        // Do not worry about accuracy (of the count) at this time
+        invalids.remove("accuracy");
         return invalids;
     }
 

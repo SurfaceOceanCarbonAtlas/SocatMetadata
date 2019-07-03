@@ -8,7 +8,7 @@ import java.util.HashSet;
  */
 public class Sampler extends Instrument implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 8437893075229934306L;
+    private static final long serialVersionUID = -3348304096663668381L;
 
     HashSet<String> instrumentNames;
 
@@ -62,6 +62,16 @@ public class Sampler extends Instrument implements Cloneable, Serializable {
                 this.instrumentNames.add(name);
             }
         }
+    }
+
+    @Override
+    public HashSet<String> invalidFieldNames() {
+        HashSet<String> invalids = super.invalidFieldNames();
+        if ( instrumentNames.isEmpty() ) {
+            invalids.add("instrumentNames");
+            return invalids;
+        }
+        return invalids;
     }
 
     @Override

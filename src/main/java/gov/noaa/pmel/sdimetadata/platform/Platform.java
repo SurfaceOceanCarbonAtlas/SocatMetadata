@@ -72,7 +72,8 @@ public class Platform implements Cloneable, Serializable {
     }
 
     /**
-     * @return the type of this platform (ship, mooring, drifting buoy); never null but may be {@link PlatformType#UNKNOWN}
+     * @return the type of this platform (ship, mooring, drifting buoy);
+     *         never null but may be {@link PlatformType#UNKNOWN}
      */
     public PlatformType getPlatformType() {
         return platformType;

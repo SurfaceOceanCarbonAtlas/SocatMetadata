@@ -4,6 +4,7 @@ import gov.noaa.pmel.sdimetadata.variable.DataVar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Basic information about an instrument that is a gas sensor.  Specific details about values
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public class GasSensor extends Analyzer implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 6967935667581623863L;
+    private static final long serialVersionUID = 4903232856416317538L;
 
     protected ArrayList<CalibrationGas> calibrationGases;
 
@@ -62,6 +63,22 @@ public class GasSensor extends Analyzer implements Cloneable, Serializable {
                 this.calibrationGases.add(gas.clone());
             }
         }
+    }
+
+    @Override
+    public HashSet<String> invalidFieldNames() {
+        HashSet<String> invalid = super.invalidFieldNames();
+        if ( calibrationGases.isEmpty() ) {
+            invalid.add("calibrationGases");
+        }
+        else {
+            for (int k = 0; k < calibrationGases.size(); k++) {
+                for (String name : calibrationGases.get(k).invalidFieldNames()) {
+                    invalid.add("calibrationGases[" + k + "]." + name);
+                }
+            }
+        }
+        return invalid;
     }
 
     @Override

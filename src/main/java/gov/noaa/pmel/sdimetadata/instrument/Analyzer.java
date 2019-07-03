@@ -6,9 +6,9 @@ import java.util.HashSet;
 /**
  * Base class for an analyzing instrument.
  */
-public class Analyzer extends Instrument implements Serializable {
+public class Analyzer extends Instrument implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 3062292613497832116L;
+    private static final long serialVersionUID = -2730862468806813801L;
 
     protected String calibration;
 
@@ -34,9 +34,7 @@ public class Analyzer extends Instrument implements Serializable {
 
     @Override
     public HashSet<String> invalidFieldNames() {
-        HashSet<String> invalids = new HashSet<String>();
-        if ( name.isEmpty() )
-            invalids.add("name");
+        HashSet<String> invalids = super.invalidFieldNames();
         if ( manufacturer.isEmpty() )
             invalids.add("manufacturer");
         if ( model.isEmpty() )

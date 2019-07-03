@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdimetadata.person;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Full information about an investigator.
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Investigator extends Person implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 9221881299932903085L;
+    private static final long serialVersionUID = -8347533437499452708L;
 
     protected ArrayList<String> streets;
     protected String city;
@@ -179,6 +180,14 @@ public class Investigator extends Person implements Cloneable, Serializable {
      */
     public void setEmail(String email) {
         this.email = (email != null) ? email.trim() : "";
+    }
+
+    @Override
+    public HashSet<String> invalidFieldNames() {
+        HashSet<String> invalids = super.invalidFieldNames();
+        if ( organization.isEmpty() )
+            invalids.add("organization");
+        return invalids;
     }
 
     @Override

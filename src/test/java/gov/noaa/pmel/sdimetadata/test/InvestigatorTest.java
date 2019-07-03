@@ -203,6 +203,9 @@ public class InvestigatorTest {
     @Test
     public void testInvalidFieldNames() {
         Investigator investigator = new Investigator();
+        assertEquals(new HashSet<String>(Arrays.asList("lastName", "firstName", "organization")),
+                investigator.invalidFieldNames());
+        investigator.setOrganization(ORGANIZATION);
         assertEquals(new HashSet<String>(Arrays.asList("lastName", "firstName")), investigator.invalidFieldNames());
         investigator.setLastName(LAST_NAME);
         assertEquals(new HashSet<String>(Arrays.asList("firstName")), investigator.invalidFieldNames());

@@ -32,19 +32,10 @@ public class Submitter extends Investigator implements Cloneable, Serializable {
      */
     @Override
     public HashSet<String> invalidFieldNames() {
-        HashSet<String> invalid = new HashSet<String>();
-        if ( lastName.isEmpty() )
-            invalid.add("lastName");
-        if ( firstName.isEmpty() )
-            invalid.add("firstName");
+        HashSet<String> invalid = super.invalidFieldNames();
+        // At this time only check streets for address - address from CDIAC not parsed
         if ( streets.isEmpty() )
             invalid.add("streets");
-        if ( city.isEmpty() )
-            invalid.add("city");
-        if ( country.isEmpty() )
-            invalid.add("country");
-        if ( phone.isEmpty() )
-            invalid.add("phone");
         if ( email.isEmpty() )
             invalid.add("email");
         return invalid;

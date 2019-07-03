@@ -37,15 +37,14 @@ public class SubmitterTest {
     @Test
     public void testInvalidFieldNames() {
         Submitter submitter = new Submitter();
-        assertEquals(new HashSet<String>(Arrays.asList("lastName", "firstName",
-                "streets", "city", "country", "phone", "email")), submitter.invalidFieldNames());
+        assertEquals(new HashSet<String>(Arrays.asList("lastName", "firstName", "streets", "organization", "email")),
+                submitter.invalidFieldNames());
         submitter.setLastName(LAST_NAME);
         submitter.setFirstName(FIRST_NAME);
-        assertEquals(new HashSet<String>(Arrays.asList("streets", "city",
-                "country", "phone", "email")), submitter.invalidFieldNames());
+        submitter.setOrganization(ORGANIZATION);
+        assertEquals(new HashSet<String>(Arrays.asList("streets", "email")), submitter.invalidFieldNames());
         submitter.setStreets(STREETS);
         submitter.setCity(CITY);
-        assertEquals(new HashSet<String>(Arrays.asList("country", "phone", "email")), submitter.invalidFieldNames());
         submitter.setCountry(COUNTRY);
         submitter.setPhone(PHONE);
         assertEquals(new HashSet<String>(Arrays.asList("email")), submitter.invalidFieldNames());
