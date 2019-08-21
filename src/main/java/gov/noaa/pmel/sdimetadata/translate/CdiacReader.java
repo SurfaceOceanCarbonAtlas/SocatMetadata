@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -369,8 +368,15 @@ public class CdiacReader extends DocumentHandler {
         }
         info.setHistory(history);
 
-        info.setStartDatestamp(getDatestamp(getElementText(null, START_DATE_ELEMENT_NAME)));
-        info.setEndDatestamp(getDatestamp(getElementText(null, END_DATE_ELEMENT_NAME)));
+        // If the "cruise" start and end dates are not specified, use the temporal coverage dates
+        Datestamp datestamp = getDatestamp(getElementText(null, START_DATE_ELEMENT_NAME));
+        if ( datestamp == null )
+            datestamp = getDatestamp(getElementText(null, TEMP_START_DATE_ELEMENT_NAME));
+        info.setStartDatestamp(datestamp);
+        datestamp = getDatestamp(getElementText(null, END_DATE_ELEMENT_NAME));
+        if ( datestamp == null )
+            datestamp = getDatestamp(getElementText(null, TEMP_END_DATE_ELEMENT_NAME));
+        info.setEndDatestamp(datestamp);
 
         ArrayList<String> portsOfCall = new ArrayList<String>();
         for (Element portElem : getElementList(null, PORT_OF_CALL_ELEMENT_NAME)) {
