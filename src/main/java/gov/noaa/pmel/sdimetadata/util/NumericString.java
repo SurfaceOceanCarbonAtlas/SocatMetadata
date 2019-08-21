@@ -29,7 +29,7 @@ public final class NumericString implements Cloneable, Serializable {
      *         numeric string to assign after trimming;  if null or blank,
      *         an empty string is assigned and the associated numeric value is Double.NaN
      * @param unit
-     *         unit string for the numeric value;  if null or blank, and empty string is assigned
+     *         unit string for the numeric value;  if null or blank, an empty string is assigned
      *
      * @throws IllegalArgumentException
      *         if the given numeric string, if not null or blank, does not represent a finite numeric value

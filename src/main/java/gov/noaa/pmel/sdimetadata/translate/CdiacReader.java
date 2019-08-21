@@ -890,13 +890,18 @@ public class CdiacReader extends DocumentHandler {
     /**
      * Patterns for equilibrator chamber volume descriptions.
      */
-    private static final Pattern[] VOLUME_DESCRIPTION_PATTERNS = new Pattern[] {
-            Pattern.compile("(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*\\(\\s*" +
-                            "(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*water\\s*,\\s*" +
-                            "(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*headspace\\s*\\)",
-                    Pattern.CASE_INSENSITIVE
-            )
-    };
+    private static final Pattern AOML_VOLUME_DESCRIPTION_PATTERN =
+            Pattern.compile("(\\d*\\.?\\d*)\\s*L\\s*\\(\\s*" +
+                    "(\\d*\\.?\\d*)\\s*L\\s*water\\s*,\\s*" +
+                    "(\\d*\\.?\\d*)\\s*L\\s*headspace\\s*\\)"
+            );
+
+    private static final Pattern AOML_CALIBRATION_GAS_DESCRIPTION_PATTERN =
+            Pattern.compile("Std\\.?\\s*\\d\\s*:\\s*(\\p{Alnum}+)\\s*,\\s*" +
+                    "(\\d*\\.?\\d*)\\s*ppm\\s*,\\s*" +
+                    "([\\p{Alnum}\\s]+),\\s" +
+                    "used every (\\p{Print}+)"
+            );
 
     /**
      * @return list of instrument information; never null.
@@ -918,21 +923,14 @@ public class CdiacReader extends DocumentHandler {
 
         equilibrator.setEquilibratorType(getElementText(null, EQUI_TYPE_ELEMENT_NAME));
         String volumeDesc = getElementText(null, EQUI_VOLUME_ELEMENT_NAME);
-        boolean matched = false;
-        for (Pattern pattern : VOLUME_DESCRIPTION_PATTERNS) {
-            Matcher matcher = pattern.matcher(volumeDesc);
-            if ( matcher.matches() ) {
-                equilibrator.setChamberVol(matcher.group(1) + " " + matcher.group(2));
-                equilibrator.setChamberWaterVol(matcher.group(3) + " " + matcher.group(4));
-                equilibrator.setChamberGasVol(matcher.group(5) + " " + matcher.group(6));
-                matched = true;
-                break;
-            }
+        Matcher matcher = AOML_VOLUME_DESCRIPTION_PATTERN.matcher(volumeDesc);
+        if ( matcher.matches() ) {
+            equilibrator.setChamberVol(matcher.group(1) + " L");
+            equilibrator.setChamberWaterVol(matcher.group(2) + " L");
+            equilibrator.setChamberGasVol(matcher.group(3) + " L");
         }
-        if ( !matched )
+        else
             equilibrator.setChamberVol(volumeDesc);
-        // equilibrator.setChamberWaterVol(chamberWaterVol); - not specified but probably part of chamber volume
-        // equilibrator.setChamberGasVol(chamberGasVol); - not specified but probably part of chamber volume
         equilibrator.setWaterFlowRate(getElementText(null, WATER_FLOW_RATE_ELEMENT_NAME));
         equilibrator.setGasFlowRate(getElementText(null, GAS_FLOW_RATE_ELEMENT_NAME));
         equilibrator.setVenting(getElementText(null, VENTED_ELEMENT_NAME));
@@ -964,7 +962,28 @@ public class CdiacReader extends DocumentHandler {
         ArrayList<String> calGasInfoList = getListOfLines(calGasInfo);
         ArrayList<CalibrationGas> gasList = new ArrayList<CalibrationGas>(calGasInfoList.size());
         for (String gasInfo : calGasInfoList) {
-            gasList.add(new CalibrationGas(gasInfo, "CO2", null, null, null, null));
+            matcher = AOML_CALIBRATION_GAS_DESCRIPTION_PATTERN.matcher(gasInfo);
+            if ( matcher.matches() ) {
+                String id = matcher.group(1);
+                String concStr = matcher.group(2);
+                // Assume the concentration is accurate within one of its last reported digit
+                String accStr;
+                int dotIdx = concStr.indexOf(".");
+                if ( (dotIdx >= 0) || (dotIdx + 1 < concStr.length()) ) {
+                    accStr = "0.";
+                    for (int k = dotIdx + 2; k < concStr.length(); k++) {
+                        accStr += "0";
+                    }
+                    accStr += "1";
+                }
+                else
+                    accStr = "1";
+                String supplier = matcher.group(3);
+                String useFreq = "used every " + matcher.group(4);
+                gasList.add(new CalibrationGas(id, "CO2", supplier, concStr, accStr, useFreq));
+            }
+            else
+                gasList.add(new CalibrationGas(gasInfo, "CO2", null, null, null, null));
         }
         co2Sensor.setCalibrationGases(gasList);
         instruments.add(co2Sensor);

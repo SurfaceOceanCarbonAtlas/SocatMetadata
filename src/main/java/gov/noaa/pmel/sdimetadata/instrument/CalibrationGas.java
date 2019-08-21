@@ -42,7 +42,7 @@ public class CalibrationGas implements Cloneable, Serializable {
      * @param supplier
      *         assign as the supplier or manufacturer of the calibration gas; if null, an empty string is assigned
      * @param concStr
-     *         assign as the concentration, in umol/mol, of the gas being calibrated;
+     *         assign as the concentration, in {@link #GAS_CONCENTRATION_UNIT}, of the gas being calibrated;
      *         if null or blank, an empty string is assigned
      * @param accStr
      *         assign as the accuracy, in {@link #GAS_CONCENTRATION_UNIT}, of the concentration of the gas
