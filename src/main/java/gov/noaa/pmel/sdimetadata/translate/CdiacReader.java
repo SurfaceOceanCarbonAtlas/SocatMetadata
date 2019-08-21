@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CdiacReader extends DocumentHandler {
@@ -557,8 +558,8 @@ public class CdiacReader extends DocumentHandler {
                     co2WaterEqu.setMethodReference(getElementText(null, METHOD_REFS_ELEMENT_NAME));
                     co2WaterEqu.setMethodDescription(getElementText(null, CO2_MEASUREMENT_METHOD_ELEMENT_NAME));
                     co2WaterEqu.setSamplingLocation(getElementText(null, INTAKE_LOCATION_ELEMENT_NAME));
-                    co2WaterEqu
-                            .setSamplingElevation("Sampling Depth: " + getElementText(null, INTAKE_DEPTH_ELEMENT_NAME));
+                    co2WaterEqu.setSamplingElevation(
+                            "Sampling Depth: " + getElementText(null, INTAKE_DEPTH_ELEMENT_NAME));
                     co2WaterEqu.setDryingMethod(getElementText(null, DRYING_METHOD_ELEMENT_NAME));
                     strVal = getElementText(null, DETAILS_OF_CO2_SENSING_ELEMENT_NAME);
                     if ( !strVal.isEmpty() )
@@ -815,6 +816,17 @@ public class CdiacReader extends DocumentHandler {
     }
 
     /**
+     * Patterns for equilibrator chamber volume descriptions.
+     */
+    private static final Pattern[] VOLUME_DESCRIPTION_PATTERNS = new Pattern[] {
+            Pattern.compile("(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*\\(\\s*" +
+                            "(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*water\\s*,\\s*" +
+                            "(\\d*\\.?\\d*)\\s*(\\p{Alpha}+)\\s*headspace\\s*\\)",
+                    Pattern.CASE_INSENSITIVE
+            )
+    };
+
+    /**
      * @return list of instrument information; never null.
      */
     private ArrayList<Instrument> getInstruments() {
@@ -833,7 +845,20 @@ public class CdiacReader extends DocumentHandler {
         ));
 
         equilibrator.setEquilibratorType(getElementText(null, EQUI_TYPE_ELEMENT_NAME));
-        equilibrator.setChamberVol(getElementText(null, EQUI_VOLUME_ELEMENT_NAME));
+        String volumeDesc = getElementText(null, EQUI_VOLUME_ELEMENT_NAME);
+        boolean matched = false;
+        for (Pattern pattern : VOLUME_DESCRIPTION_PATTERNS) {
+            Matcher matcher = pattern.matcher(volumeDesc);
+            if ( matcher.matches() ) {
+                equilibrator.setChamberVol(matcher.group(1) + " " + matcher.group(2));
+                equilibrator.setChamberWaterVol(matcher.group(3) + " " + matcher.group(4));
+                equilibrator.setChamberGasVol(matcher.group(5) + " " + matcher.group(6));
+                matched = true;
+                break;
+            }
+        }
+        if ( !matched )
+            equilibrator.setChamberVol(volumeDesc);
         // equilibrator.setChamberWaterVol(chamberWaterVol); - not specified but probably part of chamber volume
         // equilibrator.setChamberGasVol(chamberGasVol); - not specified but probably part of chamber volume
         equilibrator.setWaterFlowRate(getElementText(null, WATER_FLOW_RATE_ELEMENT_NAME));
