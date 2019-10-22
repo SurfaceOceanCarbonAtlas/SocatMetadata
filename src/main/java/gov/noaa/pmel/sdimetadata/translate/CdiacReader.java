@@ -888,7 +888,7 @@ public class CdiacReader extends DocumentHandler {
     }
 
     /**
-     * Patterns for equilibrator chamber volume descriptions.
+     * Pattern for equilibrator chamber volume descriptions.
      */
     private static final Pattern AOML_VOLUME_DESCRIPTION_PATTERN =
             Pattern.compile("(\\d*\\.?\\d*)\\s*L\\s*\\(\\s*" +
@@ -896,11 +896,34 @@ public class CdiacReader extends DocumentHandler {
                     "(\\d*\\.?\\d*)\\s*L\\s*headspace\\s*\\)"
             );
 
+    /**
+     * Pattern for calibration gas (with ID) descriptions.
+     */
     private static final Pattern AOML_CALIBRATION_GAS_DESCRIPTION_PATTERN =
             Pattern.compile("Std\\.?\\s*\\d\\s*:\\s*(\\p{Alnum}+)\\s*,\\s*" +
                     "(\\d*\\.?\\d*)\\s*ppm\\s*,\\s*" +
                     "([\\p{Alnum}\\s]+),\\s" +
                     "used every (\\p{Print}+)"
+            );
+
+    /**
+     * Pattern for calibration gas (without ID) descriptions.
+     */
+    private static final Pattern AOML_NO_ID_CALIBRATION_GAS_DESCRIPTION_PATTERN =
+            Pattern.compile("Std\\.?\\s*\\d\\s*:\\s*" +
+                    "(\\d*\\.?\\d*)\\s*ppm\\s*,\\s*" +
+                    "([\\p{Alnum}\\s]+),\\s" +
+                    "used every (\\p{Print}+)"
+            );
+
+    /**
+     * Pattern for unused calibration gas descriptions.
+     */
+    private static final Pattern AOML_UNUSED_CALIBRATION_GAS_DESCRIPTION_PATTERN =
+            Pattern.compile("Std\\.?\\s*\\d\\s*:\\s*(\\p{Alnum}+)\\s*,\\s*" +
+                    "(\\d*\\.?\\d*)\\s*ppm\\s*,\\s*" +
+                    "([\\p{Alnum}\\s]+),\\s" +
+                    "was\\s*not\\s*used\\s*\\.?"
             );
 
     /**
@@ -959,15 +982,51 @@ public class CdiacReader extends DocumentHandler {
         co2Sensor.setAddnInfo(addnInfo);
         // All the calibration gas information is stuck together in the following ...
         String calGasInfo = getElementText(null, CO2_CALIBRATION_MANUFACTURER_ELEMENT_NAME);
+        // See if the gasses are separated by newlines
         ArrayList<String> calGasInfoList = getListOfLines(calGasInfo);
+        if ( calGasInfoList.size() == 1 ) {
+            // All in one line; see if separated by .Std
+            String[] pieces = calGasInfo.split("\\.\\s*Std");
+            if ( pieces.length > 1 ) {
+                calGasInfoList.clear();
+                calGasInfoList.add(pieces[0].trim() + ".");
+                for (int k = 1; k < pieces.length - 1; k++)
+                    calGasInfoList.add("Std " + pieces[k].trim() + ".");
+                calGasInfoList.add("Std " + pieces[pieces.length - 1].trim());
+            }
+        }
         ArrayList<CalibrationGas> gasList = new ArrayList<CalibrationGas>(calGasInfoList.size());
         for (String gasInfo : calGasInfoList) {
+            String id = "";
+            String supplier = "";
+            String concStr = "";
+            String accStr = "";
+            String useFreq = "";
             matcher = AOML_CALIBRATION_GAS_DESCRIPTION_PATTERN.matcher(gasInfo);
             if ( matcher.matches() ) {
-                String id = matcher.group(1);
-                String concStr = matcher.group(2);
+                id = matcher.group(1);
+                concStr = matcher.group(2);
+                supplier = matcher.group(3);
+                useFreq = "used every " + matcher.group(4);
+            }
+            else {
+                matcher = AOML_NO_ID_CALIBRATION_GAS_DESCRIPTION_PATTERN.matcher(gasInfo);
+                if ( matcher.matches() ) {
+                    concStr = matcher.group(1);
+                    supplier = matcher.group(2);
+                    useFreq = "used every " + matcher.group(3);
+                }
+                else {
+                    // Matches the unused pattern, so ignore this entry
+                    matcher = AOML_UNUSED_CALIBRATION_GAS_DESCRIPTION_PATTERN.matcher(gasInfo);
+                    if ( matcher.matches() )
+                        continue;
+                    // Doesn't match a pattern, so stick the whole string under the ID
+                    id = gasInfo;
+                }
+            }
+            if ( ! concStr.isEmpty() ) {
                 // Assume the concentration is accurate within one of its last reported digit
-                String accStr;
                 int dotIdx = concStr.indexOf(".");
                 if ( (dotIdx >= 0) || (dotIdx + 1 < concStr.length()) ) {
                     accStr = "0.";
@@ -978,12 +1037,8 @@ public class CdiacReader extends DocumentHandler {
                 }
                 else
                     accStr = "1";
-                String supplier = matcher.group(3);
-                String useFreq = "used every " + matcher.group(4);
-                gasList.add(new CalibrationGas(id, "CO2", supplier, concStr, accStr, useFreq));
             }
-            else
-                gasList.add(new CalibrationGas(gasInfo, "CO2", null, null, null, null));
+            gasList.add(new CalibrationGas(id, "CO2", supplier, concStr, accStr, useFreq));
         }
         co2Sensor.setCalibrationGases(gasList);
         instruments.add(co2Sensor);
