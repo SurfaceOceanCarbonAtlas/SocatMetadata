@@ -74,8 +74,6 @@ public class CalibrationGas implements Cloneable, Serializable {
      */
     public HashSet<String> invalidFieldNames() {
         HashSet<String> invalid = new HashSet<String>();
-        if ( id.isEmpty() )
-            invalid.add("id");
         if ( type.isEmpty() )
             invalid.add("type");
         if ( supplier.isEmpty() )
