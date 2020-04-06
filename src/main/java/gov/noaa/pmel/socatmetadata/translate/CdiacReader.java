@@ -324,9 +324,9 @@ public class CdiacReader extends DocumentHandler {
     }
 
     /**
-     * @return an SDIMetadata object populated with information found in this CDIAC XML file; never null
+     * @return an SocatMetadata object populated with information found in this CDIAC XML file; never null
      */
-    public SocatMetadata createSDIMetadata() {
+    public SocatMetadata createSocatMetadata() {
         SocatMetadata mdata = new SocatMetadata();
         MiscInfo misc = getMiscInfo();
         mdata.setMiscInfo(misc);

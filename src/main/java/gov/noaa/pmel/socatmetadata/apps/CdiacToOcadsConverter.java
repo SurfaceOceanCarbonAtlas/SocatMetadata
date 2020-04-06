@@ -71,7 +71,7 @@ public class CdiacToOcadsConverter {
                             " changed association from type " + oldType.toString() +
                             " to type " + entry.getValue().toString());
             }
-            metadata = cdiacReader.createSDIMetadata();
+            metadata = cdiacReader.createSocatMetadata();
         } catch ( Exception ex ) {
             System.err.println("Problems reading the CDIAC XML file '" + args[0] + "':");
             String msg = ex.getMessage();

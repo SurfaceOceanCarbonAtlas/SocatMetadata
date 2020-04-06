@@ -44,7 +44,7 @@ public class SocatMetadataTest {
     @Before
     public void setUp() throws Exception {
         CdiacReader reader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING));
-        mdataFromCdiac = reader.createSDIMetadata();
+        mdataFromCdiac = reader.createSocatMetadata();
         submitter = mdataFromCdiac.getSubmitter();
         investigators = mdataFromCdiac.getInvestigators();
         platform = mdataFromCdiac.getPlatform();

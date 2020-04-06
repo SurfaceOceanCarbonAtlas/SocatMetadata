@@ -13,11 +13,11 @@
     </properties>
 
     <groupId>gov.noaa.pmel</groupId>
-    <artifactId>sdimetadata</artifactId>
+    <artifactId>socatmetadata</artifactId>
     <version>7.0.0</version>
     <packaging>jar</packaging>
 
-    <name>SDIMetadata</name>
+    <name>SocatMetadata</name>
     <description>Java library representing metadata with an emphasis on ocean data</description>
 
     <build>

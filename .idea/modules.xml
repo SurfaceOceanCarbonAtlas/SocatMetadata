@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SDIMetadata.iml" filepath="$PROJECT_DIR$/SDIMetadata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SocatMetadata.iml" filepath="$PROJECT_DIR$/SocatMetadata.iml" />
     </modules>
   </component>
 </project>

@@ -77,9 +77,9 @@ public class CdiacReaderTest {
     }
 
     @Test
-    public void testCreateSDIMetadata() {
+    public void testCreateSocatMetadata() {
         CdiacReader reader = new CdiacReader(new StringReader(AOML_CDIAC_XML_DATA_STRING));
-        SocatMetadata mdata = reader.createSDIMetadata();
+        SocatMetadata mdata = reader.createSocatMetadata();
 
         Submitter submitter = mdata.getSubmitter();
         assertEquals(submitter.toString(), "Castle", submitter.getLastName());

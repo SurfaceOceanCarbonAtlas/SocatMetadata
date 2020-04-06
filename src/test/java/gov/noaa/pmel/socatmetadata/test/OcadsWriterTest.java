@@ -40,11 +40,11 @@ public class OcadsWriterTest {
     }
 
     @Test
-    public void writeSDIMetadata() {
-        // Create the SDIMetadata from the AOML CDIAC XML
+    public void writeSocatMetadata() {
+        // Create the SocatMetadata from the AOML CDIAC XML
         CdiacReader cdiacReader = new CdiacReader(new StringReader(CdiacReaderTest.AOML_CDIAC_XML_DATA_STRING));
-        SocatMetadata metadata = cdiacReader.createSDIMetadata();
-        // Create the OCADS XML from this SDIMetadata
+        SocatMetadata metadata = cdiacReader.createSocatMetadata();
+        // Create the OCADS XML from this SocatMetadata
         String xmlString = null;
         try {
             StringWriter xmlWriter = new StringWriter();

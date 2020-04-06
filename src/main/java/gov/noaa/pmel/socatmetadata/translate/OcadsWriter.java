@@ -310,7 +310,7 @@ public class OcadsWriter extends DocumentHandler {
             strBldr.append(port);
 
         }
-        // And any additional information in the SDIMetadata
+        // And any additional information in the SocatMetadata
         for (String addn : info.getAddnInfo()) {
             if ( strBldr.length() > 0 )
                 strBldr.append("\n");

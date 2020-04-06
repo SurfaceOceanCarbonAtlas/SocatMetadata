@@ -341,7 +341,7 @@ public class SocatMetadata implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return "SDIMetadata{" +
+        return "SocatMetadata{" +
                 "submitter=" + submitter +
                 ", investigators=" + investigators +
                 ", platform=" + platform +
