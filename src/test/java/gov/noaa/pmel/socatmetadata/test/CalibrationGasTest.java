@@ -173,7 +173,7 @@ public class CalibrationGasTest {
     public void testInvalidFieldNames() {
         CalibrationGas gas = new CalibrationGas();
         assertEquals(new HashSet<String>(
-                Arrays.asList("id", "type", "supplier", "concentration")), gas.invalidFieldNames());
+                Arrays.asList("type", "supplier", "concentration")), gas.invalidFieldNames());
         gas = new CalibrationGas(GAS_ID, GAS_TYPE, SUPPLIER, null, null, null);
         assertEquals(new HashSet<String>(Arrays.asList("concentration")), gas.invalidFieldNames());
         gas.setConcentration(CONCENTRATION);

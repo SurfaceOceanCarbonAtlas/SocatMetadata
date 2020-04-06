@@ -286,7 +286,7 @@ public class OcadsWriterTest {
             assertEquals("Sampling Depth: 5 meters", docHandler.getElementText(var, depthSeawaterIntake));
             assertEquals("Sprayhead above dynamic pool, with thermal jacket",
                     docHandler.getElementText(var, equilibratorType));
-            assertEquals("0.95 L (0.4 L water, 0.55 L headspace)", docHandler.getElementText(var, equilibratorVolume));
+            assertEquals("0.95 L; Water Volume: 0.4 L; Gas Volume: 0.55 L", docHandler.getElementText(var, equilibratorVolume));
             assertEquals("Yes", docHandler.getElementText(var, equilibratorVented));
             assertEquals("1.5 - 2.0 L/min", docHandler.getElementText(var, equilibratorWaterFlowRate));
             assertEquals("70 - 150 ml/min", docHandler.getElementText(var, equilibratorGasFlowRate));
@@ -329,7 +329,7 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, headspacevol));
             assertEquals("", docHandler.getElementText(var, temperatureMeasure));
             assertEquals("", docHandler.getElementText(var, waterVaporCorrection));
-            assertEquals("", docHandler.getElementText(var, co2ReportTemperature));
+            assertEquals("equilibrator temperature", docHandler.getElementText(var, co2ReportTemperature));
             assertEquals("", docHandler.getElementText(var, temperatureCorrection));
             assertEquals("", docHandler.getElementText(var, researcherName));
             assertEquals("", docHandler.getElementText(var, researcherInstitution));
@@ -420,8 +420,8 @@ public class OcadsWriterTest {
                             "Measurement: Yes, 5 readings in a group every 3.25 hours.",
                     docHandler.getElementText(var, detailedInfo));
             assertEquals("Surface Underway", docHandler.getElementText(var, observationType));
-            assertEquals("Measured in-situ", docHandler.getElementText(var, insitu));
-            assertEquals("Measured in-situ", docHandler.getElementText(var, measured));
+            assertEquals("Computed", docHandler.getElementText(var, insitu));
+            assertEquals("Computed", docHandler.getElementText(var, measured));
             assertEquals("", docHandler.getElementText(var, manipulationMethod));
             assertEquals("Infrared absorption of dry sample gas.", docHandler.getElementText(var, calcMethod));
             assertEquals("", docHandler.getElementText(var, samplingInstrument));
@@ -779,7 +779,7 @@ public class OcadsWriterTest {
             assertEquals("Sampling Depth: 5 meters", docHandler.getElementText(var, depthSeawaterIntake));
             assertEquals("Sprayhead above dynamic pool, with thermal jacket",
                     docHandler.getElementText(var, equilibratorType));
-            assertEquals("0.95 L (0.4 L water, 0.55 L headspace)", docHandler.getElementText(var, equilibratorVolume));
+            assertEquals("0.95 L; Water Volume: 0.4 L; Gas Volume: 0.55 L", docHandler.getElementText(var, equilibratorVolume));
             assertEquals("Yes", docHandler.getElementText(var, equilibratorVented));
             assertEquals("1.5 - 2.0 L/min", docHandler.getElementText(var, equilibratorWaterFlowRate));
             assertEquals("70 - 150 ml/min", docHandler.getElementText(var, equilibratorGasFlowRate));
@@ -822,7 +822,7 @@ public class OcadsWriterTest {
             assertEquals("", docHandler.getElementText(var, headspacevol));
             assertEquals("", docHandler.getElementText(var, temperatureMeasure));
             assertEquals("", docHandler.getElementText(var, waterVaporCorrection));
-            assertEquals("", docHandler.getElementText(var, co2ReportTemperature));
+            assertEquals("SST", docHandler.getElementText(var, co2ReportTemperature));
             assertEquals("", docHandler.getElementText(var, temperatureCorrection));
             assertEquals("", docHandler.getElementText(var, researcherName));
             assertEquals("", docHandler.getElementText(var, researcherInstitution));
@@ -848,8 +848,8 @@ public class OcadsWriterTest {
                             "Measurement: Yes, 5 readings in a group every 3.25 hours.",
                     docHandler.getElementText(var, detailedInfo));
             assertEquals("Surface Underway", docHandler.getElementText(var, observationType));
-            assertEquals("Measured in-situ", docHandler.getElementText(var, insitu));
-            assertEquals("Measured in-situ", docHandler.getElementText(var, measured));
+            assertEquals("Computed", docHandler.getElementText(var, insitu));
+            assertEquals("Computed", docHandler.getElementText(var, measured));
             assertEquals("", docHandler.getElementText(var, manipulationMethod));
             assertEquals("Infrared absorption of dry sample gas.", docHandler.getElementText(var, calcMethod));
             assertEquals("", docHandler.getElementText(var, samplingInstrument));
